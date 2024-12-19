@@ -127,8 +127,8 @@
               <div class="card-body">
                 <form role="form" class="text-start">
                   <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="email" class="form-control">
+                    <label class="form-label">Username</label>
+                    <input type="username" id="username" class="form-control">
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Password</label>
@@ -139,13 +139,29 @@
                     <label class="form-check-label mb-0 ms-3" for="rememberMe">Remember me</label>
                   </div>
                   <div class="text-center">
-                    <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign in</button>
+                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign in</button>
                   </div>
                   <p class="mt-4 text-sm text-center">
                     Don't have an account?
                     <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
                   </p>
                 </form>
+
+                <script type="text/javascript">
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // prevent default form submission behavior
+
+            // validate username and password
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username === 'BigZa' && password === 'Nigga') {
+                alert('Login successful!');
+            } else {
+                alert('Username or password incorrect. Please try again.');
+            }
+        });
+    </script>
               </div>
             </div>
           </div>
@@ -204,21 +220,7 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
 
-<script type="text/javascript">
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault(); // prevent default form submission behavior
 
-            // validate username and password
-            const username = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            if (username === 'BigZa' && password === 'Nigga') {
-                alert('Login successful!');
-            } else {
-                alert('Username or password incorrect. Please try again.');
-            }
-        });
-    </script>
 </body>
 
 </html>
