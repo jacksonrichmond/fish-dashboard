@@ -128,11 +128,11 @@
                 <form role="form" class="text-start">
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control">
+                    <input type="email" id="email" class="form-control">
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-control">
+                    <input type="password" id="password" class="form-control">
                   </div>
                   <div class="form-check form-switch d-flex align-items-center mb-3">
                     <input class="form-check-input" type="checkbox" id="rememberMe" checked>
@@ -203,6 +203,22 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+
+<script type="text/javascript">
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // prevent default form submission behavior
+
+            // validate username and password
+            const username = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            if (username === 'BigZa' && password === 'Nigga') {
+                alert('Login successful!');
+            } else {
+                alert('Username or password incorrect. Please try again.');
+            }
+        });
+    </script>
 </body>
 
 </html>
