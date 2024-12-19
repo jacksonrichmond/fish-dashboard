@@ -146,30 +146,45 @@
                   </p>
                 </form>
 
-                <script type="text/javascript">
-      function setLoginCookie(username, profilePictureUrl) {
-    const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + (24 * 60 * 60 * 1000)); // Cookie expires in 1 day
-    document.cookie = "isLoggedIn=true; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the cookie
-    document.cookie = "username=" + username + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
-    document.cookie = "profilePicture=" + profilePictureUrl + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set profile picture URL cookie
-}
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault(); // prevent default form submission behavior
+      <script type="text/javascript">
+    // Function to set login cookies with a dynamic profile picture
+    function setLoginCookie(username, profilePictureUrl) {
+        const expirationDate = new Date();
+        expirationDate.setTime(expirationDate.getTime() + (24 * 60 * 60 * 1000)); // Cookie expires in 1 day
+        document.cookie = "isLoggedIn=true; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the login status cookie
+        document.cookie = "username=" + username + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
+        document.cookie = "profilePicture=" + profilePictureUrl + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
+    }
 
-            // validate username and password
-            const profilePictureUrl = '../assets/img/bigza.png';  // Use a default image or user's custom image URL
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            if (username === 'BigZa' && password === 'Juan') {
-              setLoginCookie(username, profilePictureUrl);  // Set the login cookie
-               window.location.href = '../pages/dashboard.html';  // Redirect to the dashboard page
-            } else {
-                alert('Username or password incorrect. Please try again.');
-            }
-        });
-    </script>
+    // Form submission event listener
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        // Get the username and password from form inputs
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value();
+
+        // Define profile pictures for each user
+        let profilePictureUrl = '';
+        if (username === 'BigZa' && password === 'Juan') {
+            profilePictureUrl = '../assets/img/bigza.jpg';  // BigZa's profile picture
+        } else if (username === 'Juan' && password === 'bae') {
+            profilePictureUrl = '../assets/img/bruce-mars.jpg';  // Juan's profile picture
+        }
+
+        // Check for valid login credentials
+        if (profilePictureUrl) {
+            setLoginCookie(username, profilePictureUrl);  // Set the login cookie with the specific profile picture
+            window.location.href = '../pages/dashboard.html';  // Redirect to the dashboard page
+        } else {
+            alert('Username or password incorrect. Please try again.');
+        }
+    });
+</script>
+
+
+
               </div>
             </div>
           </div>
