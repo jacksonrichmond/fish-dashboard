@@ -149,19 +149,43 @@
               </a>
               <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                 <li class="mb-2">
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="my-auto">
-                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          <span class="font-weight-bold">New message</span> from Laur
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          13 minutes ago
-                        </p>
+                  <a class="dropdown-item border-radius-md" href="javascript:;" onclick="showMessage()">
+  <div class="d-flex py-1">
+    <div class="my-auto">
+      <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3">
+    </div>
+    <div class="d-flex flex-column justify-content-center">
+      <h6 class="text-sm font-weight-normal mb-1">
+        <span class="font-weight-bold">New message</span> from Juan
+      </h6>
+      <p class="text-xs text-secondary mb-0">
+        <i class="fa fa-clock me-1"></i>
+        13 minutes ago
+      </p>
+    </div>
+  </div>
+</a>
+
+<!-- Hidden message UI -->
+<div id="message-ui" style="display: none; padding: 10px; border: 1px solid #ddd; margin-top: 10px;">
+  <h5>Message from Juan:</h5>
+  <p>Hello, just wanted to let you know that the project is on track. Please review the files when you have a chance.</p>
+  <p><strong>13 minutes ago</strong></p>
+  <button onclick="hideMessage()">Close</button>
+</div>
+
+<script>
+  // Function to display the message UI when the dropdown item is clicked
+  function showMessage() {
+    document.getElementById('message-ui').style.display = 'block';  // Show the message UI
+  }
+
+  // Function to hide the message UI
+  function hideMessage() {
+    document.getElementById('message-ui').style.display = 'none';  // Hide the message UI
+  }
+</script>
+
                       </div>
                     </div>
                   </a>
