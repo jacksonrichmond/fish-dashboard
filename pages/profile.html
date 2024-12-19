@@ -249,8 +249,7 @@
           </div>
           <div class="col-auto my-auto">
             <div class="h-100">
-              <h5 class="mb-1">
-                Richard Davis
+              <h5 class="mb-1"><span id="profile-username"></span> 
               </h5>
               <p class="mb-0 font-weight-normal text-sm">
                 CEO / Co-Founder
@@ -721,6 +720,35 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+  <script>
+// Profile page script
+window.onload = function() {
+    // Check if the user is logged in
+    if (!getCookie('isLoggedIn')) {
+        window.location.href = '../pages/sign-in.html';  // Redirect to login page if not logged in
+    } else {
+        // Display the username if logged in
+        const username = getCookie('username');
+        if (username) {
+            document.getElementById('profile-username').innerText = username;  // Display the username in the profile
+        }
+    }
+};
+
+// Function to get the value of a specific cookie by name
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+            return c.substring(nameEQ.length, c.length);  // Return the cookie value
+        }
+    }
+    return null;  // Return null if the cookie is not found
+}
+</script>
+
 </body>
 
 </html>
