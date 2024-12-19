@@ -155,6 +155,7 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             if (username === 'BigZa' && password === 'Juan') {
+                localStorage.setItem('isLoggedIn', 'true');  // Store login status
                window.location.href = '../pages/dashboard.html';  // Redirect to the dashboard page
             } else {
                 alert('Username or password incorrect. Please try again.');
