@@ -147,10 +147,11 @@
                 </form>
 
                 <script type="text/javascript">
-      function setLoginCookie() {
+      function setLoginCookie(username) {
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + (24 * 60 * 60 * 1000)); // Cookie expires in 1 day
     document.cookie = "isLoggedIn=true; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the cookie
+    document.cookie = "username=" + username + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
 }
         const form = document.querySelector('form');
         form.addEventListener('submit', function(event) {
@@ -160,7 +161,7 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             if (username === 'BigZa' && password === 'Juan') {
-              setLoginCookie();  // Set the login cookie
+              setLoginCookie(username);  // Set the login cookie
                window.location.href = '../pages/dashboard.html';  // Redirect to the dashboard page
             } else {
                 alert('Username or password incorrect. Please try again.');
