@@ -245,7 +245,7 @@
       <div class="row">
         <div class="col-lg-8">
           <div class="row">
-            <div class="col-xl-6 mb-xl-0 mb-4">
+          <div class="col-xl-6 mb-xl-0 mb-4">
   <div class="card bg-transparent shadow-xl">
     <div class="overflow-hidden position-relative border-radius-xl">
       <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
@@ -257,11 +257,11 @@
           <div class="d-flex">
             <div class="me-4">
               <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
-              <h6 class="text-white mb-0">Jack Peterson</h6>
+              <h6 class="text-white mb-0" id="cardHolderName">Jack Peterson</h6>
             </div>
             <div>
               <p class="text-white text-sm opacity-8 mb-0">Expires</p>
-              <h6 class="text-white mb-0">11/22</h6>
+              <h6 class="text-white mb-0" id="expiryDate">11/22</h6>
             </div>
           </div>
           <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
@@ -751,25 +751,44 @@ function editInfo12() {
   </script>
 
 <script>
-  function editCardNumber() {
-    // Get the current card number element
+  function editCardDetails() {
+    // Get the current card elements
     const cardElement = document.getElementById("cardNumber");
     const fullCardElement = document.getElementById("cardFullNumber");
+    const cardHolderElement = document.getElementById("cardHolderName");
+    const expiryElement = document.getElementById("expiryDate");
 
     // Prompt the user for a new card number
     const newCardNumber = prompt("Enter the new card number (16 digits):", "");
+    
+    // Prompt the user for the new cardholder name
+    const newCardHolder = prompt("Enter the new cardholder's name:", cardHolderElement.innerText);
 
-    // Validate the input
+    // Prompt the user for the new expiry date
+    const newExpiryDate = prompt("Enter the new expiry date (MM/YY):", expiryElement.innerText);
+
+    // Validate the card number input
     if (newCardNumber && /^[0-9]{16}$/.test(newCardNumber)) {
-      // Update both the visible card number (with stars) and the full card number
+      // Format the card number with stars for all but the last 4 digits
       const formattedCardNumber = newCardNumber.replace(/.(?=.{4})/g, '*');
       const fullFormattedCardNumber = newCardNumber.replace(/(.{4})(?=.)/g, '$1&nbsp;&nbsp;&nbsp;');
 
-      // Update the display elements
+      // Update the card number display
       cardElement.innerHTML = formattedCardNumber.replace(/(.{4})(?=.)/g, '$1&nbsp;&nbsp;&nbsp;');
       fullCardElement.innerHTML = fullFormattedCardNumber;
     } else if (newCardNumber !== null) {
       alert("Please enter a valid 16-digit card number.");
+    }
+
+    // Update the cardholder name and expiry date if provided
+    if (newCardHolder !== null && newCardHolder.trim() !== "") {
+      cardHolderElement.innerText = newCardHolder;
+    }
+
+    if (newExpiryDate !== null && /^[0-1]?[0-9]\/[0-9]{2}$/.test(newExpiryDate)) {
+      expiryElement.innerText = newExpiryDate;
+    } else if (newExpiryDate !== null) {
+      alert("Please enter a valid expiry date in MM/YY format.");
     }
   }
 </script>
