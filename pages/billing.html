@@ -422,22 +422,19 @@
     <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold" id="vat">FRB1235476</span></span>
   </div>
   <div class="ms-auto text-end">
-    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
+    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;" onclick="deleteInfo(this)" ><i class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
     <a class="btn btn-link text-dark px-3 mb-0" href="javascript:edit1" onclick="editInfo()"><i class="material-symbols-rounded text-sm me-2">edit</i>Edit</a>
   </div>
 </li>
 
 <script>
-    // Add event listener to delete buttons
-    document.querySelectorAll('.delete-btn').forEach(function(deleteBtn) {
-      deleteBtn.addEventListener('click', function() {
-        // Find the parent <li> element of the clicked delete button
-        const listItem = this.closest('li');
-
-        // Remove the <li> element from the DOM
-        listItem.remove();
-      });
-    });
+    function deleteInfo(button) {
+    // Find the parent <li> element of the delete button
+    var li = button.closest('li');
+    
+    // Remove the <li> element from the DOM
+    li.remove();
+  }
   </script>
                 <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
                   <div class="d-flex flex-column">
