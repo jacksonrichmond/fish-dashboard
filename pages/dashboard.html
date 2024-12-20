@@ -73,12 +73,6 @@
             <span class="nav-link-text ms-1">Profile</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/sign-in.html">
-            <i class="material-symbols-rounded opacity-5">login</i>
-            <span class="nav-link-text ms-1">Sign In</span>
-          </a>
-        </li>
          <li class="nav-item">
                    <a class="nav-link text-dark" onclick="logout()">
     <i class="material-symbols-rounded opacity-5">login</i>
@@ -92,6 +86,8 @@
         deleteCookie('isLoggedIn');
         deleteCookie('username');
         deleteCookie('profilePicture');
+        deleteCookie('email');
+        deleteCookie('name');
         
         // Redirect the user to the sign-in page
         window.location.href = '../pages/sign-in.html';
