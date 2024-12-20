@@ -251,7 +251,7 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder" id="juan-so-fine"></span></p>
             </div>
           </div>
         </div>
@@ -958,6 +958,35 @@ function getCookie(name) {
     document.getElementById('current-date').textContent = getCurrentDateInfo();
   </script>
 
+
+  <script>
+    // Function to get the next day's day, day number, month, and year
+    function getNextDayInfo() {
+      const now = new Date();
+
+      // Get the next day's date by adding 1 day to the current date
+      now.setDate(now.getDate() + 1); 
+
+      // Get the next day's day of the week (e.g., "Monday")
+      const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const dayOfWeek = daysOfWeek[now.getDay()]; // Get the day of the week for next day
+
+      // Get the next day's day number (e.g., 26)
+      const dayNumber = now.getDate(); // Get the day of the month for next day
+
+      // Get the next month's full name (e.g., "December")
+      const month = now.toLocaleString('default', { month: 'long' }); 
+
+      // Get the next year's year (e.g., 2024)
+      const year = now.getFullYear(); // Get the next year's full year
+
+      return `${dayOfWeek}, ${dayNumber} ${month} ${year}`; // Return formatted string "Day, DayNumber Month Year"
+    }
+
+    // Set the next day's date info in the HTML
+    document.getElementById('juan-so-fine').textContent = getNextDayInfo();
+  </script>
+  
 </body>
 
 </html>
