@@ -154,6 +154,7 @@
         document.cookie = "isLoggedIn=true; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the login status cookie
         document.cookie = "username=" + username + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
         document.cookie = "name=" + name + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
+        document.cookie = "email=" + email + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
         document.cookie = "profilePicture=" + profilePictureUrl + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
     }
 
@@ -171,8 +172,10 @@
         if (username === 'BigZa' && password === 'Juan') {
             profilePictureUrl = '../assets/img/bigza.jpg';  // BigZa's profile picture
             name = 'Jackson';
+            email = 'jrichmond@hsstu.lpsb.org';
         } else if (username === 'Juan' && password === 'bae') {
             profilePictureUrl = '../assets/img/bruce-mars.jpg';  // Juan's profile picture
+             name = 'Juan';
         }
 
         // Check for valid login credentials
