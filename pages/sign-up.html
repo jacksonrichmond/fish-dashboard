@@ -34,6 +34,45 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+ <script>
+      // Form submission handler
+      function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent form from submitting normally
+        
+        // Get form values
+        const name = document.querySelector('input[name="name"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+
+        // Send data to Google Sheets via Apps Script
+        const url = 'YOUR_GOOGLE_APPS_SCRIPT_URL'; // Replace with your script URL
+        const data = {
+          name: name,
+          email: email,
+          password: password
+        };
+
+        // Send POST request to the Google Apps Script
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams(data).toString(),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.result === "Success") {
+            alert('User signed up successfully!');
+          } else {
+            alert('There was an issue with the signup.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+    </script>
 </head>
 
 <body class="">
@@ -95,14 +134,13 @@
       </div>
     </div>
   </div>
-  <main class="main-content  mt-0">
+   <main class="main-content mt-0">
     <section>
       <div class="page-header min-vh-100">
         <div class="container">
           <div class="row">
             <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
-              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('../assets/img/illustrations/illustration-signup.jpg'); background-size: cover;">
-              </div>
+              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('../assets/img/illustrations/illustration-signup.jpg'); background-size: cover;"></div>
             </div>
             <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
               <div class="card card-plain">
@@ -111,18 +149,18 @@
                   <p class="mb-0">Enter your email and password to register</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
-                    <div class="input-group input-group-outline mb-3">
+                  <form onsubmit="handleFormSubmit(event)">
+                    <div class="input-group input-group-outline mb-3 is-filled">
                       <label class="form-label">Name</label>
-                      <input type="text" class="form-control">
+                      <input type="text" name="name" class="form-control" required>
                     </div>
-                    <div class="input-group input-group-outline mb-3">
+                    <div class="input-group input-group-outline mb-3 is-filled">
                       <label class="form-label">Email</label>
-                      <input type="email" class="form-control">
+                      <input type="email" name="email" class="form-control" required>
                     </div>
-                    <div class="input-group input-group-outline mb-3">
+                    <div class="input-group input-group-outline mb-3 focused is-focused is-filled">
                       <label class="form-label">Password</label>
-                      <input type="password" class="form-control">
+                      <input type="password" name="password" class="form-control" required>
                     </div>
                     <div class="form-check form-check-info text-start ps-0">
                       <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
@@ -131,7 +169,7 @@
                       </label>
                     </div>
                     <div class="text-center">
-                      <button type="button" class="btn btn-lg bg-gradient-dark btn-lg w-100 mt-4 mb-0">Sign Up</button>
+                      <button type="submit" class="btn btn-lg bg-gradient-dark btn-lg w-100 mt-4 mb-0">Sign Up</button>
                     </div>
                   </form>
                 </div>
