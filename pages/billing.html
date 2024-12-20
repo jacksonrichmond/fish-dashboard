@@ -415,17 +415,18 @@
             <div class="card-body pt-4 p-3">
               <ul id="user-list" class="list-group">
                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                  <div class="d-flex flex-column">
-                    <h6 class="mb-3 text-sm">Oliver Liam</h6>
-                    <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Celebrity Fishing</span></span>
-                    <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">example@celebrityfishing.com</span></span>
-                    <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                  </div>
-                  <div class="ms-auto text-end">
-                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" delete-btn" href="javascript:;"><i class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
-                    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-symbols-rounded text-sm me-2">edit</i>Edit</a>
-                  </div>
-                </li>
+  <div class="d-flex flex-column">
+    <h6 class="mb-3 text-sm" id="name">Oliver Liam</h6>
+    <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2" id="company">Celebrity Fishing</span></span>
+    <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold" id="email">example@celebrityfishing.com</span></span>
+    <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold" id="vat">FRB1235476</span></span>
+  </div>
+  <div class="ms-auto text-end">
+    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
+    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:edit1" onclick="editInfo()"><i class="material-symbols-rounded text-sm me-2">edit</i>Edit</a>
+  </div>
+</li>
+
 <script>
     // Add event listener to delete buttons
     document.querySelectorAll('.delete-btn').forEach(function(deleteBtn) {
@@ -688,6 +689,31 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+ <script>
+function editInfo() {
+  // Prompt the user to enter new values for each field
+  var newName = prompt("Enter the new name:", document.getElementById("name").innerText);
+  if (newName != null && newName !== "") {
+    document.getElementById("name").innerText = newName;
+  }
+
+  var newCompany = prompt("Enter the new company name:", document.getElementById("company").innerText);
+  if (newCompany != null && newCompany !== "") {
+    document.getElementById("company").innerText = newCompany;
+  }
+
+  var newEmail = prompt("Enter the new email address:", document.getElementById("email").innerText);
+  if (newEmail != null && newEmail !== "") {
+    document.getElementById("email").innerText = newEmail;
+  }
+
+  var newVat = prompt("Enter the new VAT number:", document.getElementById("vat").innerText);
+  if (newVat != null && newVat !== "") {
+    document.getElementById("vat").innerText = newVat;
+  }
+}
+  </script>
+  
 </body>
 
 </html>
