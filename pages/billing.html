@@ -428,20 +428,12 @@
     <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold" id="vatNumber">FRB1235476</span></span>
   </div>
   <div class="ms-auto text-end">
-    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;" onclick="deleteItem()"><i class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
+    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:deleteItem" onclick="deleteInfo(this)"><i class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
     <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;" onclick="editDetails()"><i class="material-symbols-rounded text-sm me-2">edit</i>Edit</a>
   </div>
 </li>
 <script>
 // Function to hide the item and set the cookie
-function deleteItem() {
-  // Set the 'box1' cookie with value 'false'
-  document.cookie = "box1=false; path=/; max-age=" + 60*60*24*365;  // Cookie will expire in one year
-  
-  // Hide the box from the DOM
- document.getElementById("box1").classList.add("hidden");
-}
-
 // Function to edit details
 function editDetails() {
   // Get current values of name, company, email, and VAT number
@@ -472,18 +464,13 @@ function editDetails() {
 }
 
 // Function to check the value of the cookie and hide the box accordingly
-function checkBoxVisibility() {
-  var cookies = document.cookie.split('; ');
-  var box1Cookie = cookies.find(cookie => cookie.startsWith('box1='));
-
-  if (box1Cookie && box1Cookie.split('=')[1] === 'false') {
-    // If the 'box1' cookie value is 'false', hide the element
-   document.getElementById("box1").classList.add("hidden");
+function deleteInfo(button) {
+    // Find the parent <li> element of the delete button
+    var li = button.closest('li');
+    
+    // Remove the <li> element from the DOM
+    li.remove();
   }
-}
-
-// Run checkBoxVisibility on page load
-window.onload = checkBoxVisibility;
 </script>
 
 
