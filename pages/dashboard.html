@@ -868,26 +868,25 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
-  <script>
+ <script>
+  window.onload = function() {
+      if (getCookie('isLoggedIn') === 'false') {  // Check if the 'isLoggedIn' cookie exists and its value is 'false'
+          window.location.href = '../pages/sign-in.html';  // Redirect to login page if not logged in
+      }
+  };
 
-window.onload = function() {
-    if (!getCookie('isLoggedIn')) {  // Check if the 'isLoggedIn' cookie exists
-        window.location.href = '../pages/sign-in.html';  // Redirect to login page if not logged in
-    }
-};
-
-// Function to get the value of a specific cookie by name
-function getCookie(name) {
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(nameEQ) === 0) {
-            return c.substring(nameEQ.length, c.length);  // Return the cookie value
-        }
-    }
-    return null;  // Return null if the cookie is not found
-}
+  // Function to get the value of a specific cookie by name
+  function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+          let c = ca[i].trim();
+          if (c.indexOf(nameEQ) === 0) {
+              return c.substring(nameEQ.length, c.length);  // Return the cookie value
+          }
+      }
+      return null;  // Return null if the cookie is not found
+  }
 </script>
 
  <script>
