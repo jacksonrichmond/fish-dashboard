@@ -417,34 +417,55 @@
                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg" id="box1">
   <div class="d-flex flex-column">
     <h6 class="mb-3 text-sm" id="name">Oliver Liam</h6>
-    <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2" id="company">Celebrity Fishing</span></span>
+    <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2" id="companyName">Celebrity Fishing</span></span>
     <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold" id="email">example@celebrityfishing.com</span></span>
-    <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold" id="vat">FRB1235476</span></span>
+    <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold" id="vatNumber">FRB1235476</span></span>
   </div>
   <div class="ms-auto text-end">
-    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;" onclick="deleteItem()" ><i class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
-    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:edit1" onclick="editInfo()"><i class="material-symbols-rounded text-sm me-2">edit</i>Edit</a>
+    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;" onclick="deleteItem()"><i class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
+    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;" onclick="editDetails()"><i class="material-symbols-rounded text-sm me-2">edit</i>Edit</a>
   </div>
 </li>
-
 <script>
-    function deleteInfo(button) {
-    // Find the parent <li> element of the delete button
-    var li = button.closest('li');
-    
-    // Remove the <li> element from the DOM
-    li.remove();
-  }
-
-// Function to delete the item and set the cookie
+// Function to hide the item and set the cookie
 function deleteItem() {
   // Set the 'box1' cookie with value 'false'
   document.cookie = "box1=false; path=/; max-age=" + 60*60*24*365;  // Cookie will expire in one year
-  // Hide or remove the box from the DOM
+  
+  // Hide the box from the DOM
   document.getElementById("box1").style.display = "none";
 }
-  
-// Function to check the value of the cookie and delete or show the box accordingly
+
+// Function to edit details
+function editDetails() {
+  // Get current values of name, company, email, and VAT number
+  var currentName = document.getElementById("name").innerText;
+  var currentCompanyName = document.getElementById("companyName").innerText;
+  var currentEmail = document.getElementById("email").innerText;
+  var currentVatNumber = document.getElementById("vatNumber").innerText;
+
+  // Prompt the user for new values with current values as defaults
+  var newName = prompt("Enter the new name:", currentName);
+  var newCompanyName = prompt("Enter the new company name:", currentCompanyName);
+  var newEmail = prompt("Enter the new email address:", currentEmail);
+  var newVatNumber = prompt("Enter the new VAT number:", currentVatNumber);
+
+  // Update the fields if the user entered new values
+  if (newName != null && newName !== "") {
+    document.getElementById("name").innerText = newName;
+  }
+  if (newCompanyName != null && newCompanyName !== "") {
+    document.getElementById("companyName").innerText = newCompanyName;
+  }
+  if (newEmail != null && newEmail !== "") {
+    document.getElementById("email").innerText = newEmail;
+  }
+  if (newVatNumber != null && newVatNumber !== "") {
+    document.getElementById("vatNumber").innerText = newVatNumber;
+  }
+}
+
+// Function to check the value of the cookie and hide the box accordingly
 function checkBoxVisibility() {
   var cookies = document.cookie.split('; ');
   var box1Cookie = cookies.find(cookie => cookie.startsWith('box1='));
@@ -457,8 +478,9 @@ function checkBoxVisibility() {
 
 // Run checkBoxVisibility on page load
 window.onload = checkBoxVisibility;
-  
-  </script>
+</script>
+
+
                 <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
                   <div class="d-flex flex-column">
                     <h6 class="mb-3 text-sm">Lucas Harper</h6>
@@ -710,7 +732,7 @@ window.onload = checkBoxVisibility;
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
  <script>
-function editInfo() {
+function editInfo12() {
   // Prompt the user to enter new values for each field
   var newName = prompt("Enter the new name:", document.getElementById("name").innerText);
   if (newName != null && newName !== "") {
