@@ -360,7 +360,7 @@
                   <ul class="list-group">
                   <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp;<span id="profile-name"></span> </li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> &nbsp; (44) 123 1234 123</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; alecthompson@mail.com</li>
+                  <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; <span id="profile-email"></span> </li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Location:</strong> &nbsp; USA</li>
                     <li class="list-group-item border-0 ps-0 pb-0">
                       <strong class="text-dark text-sm">Social:</strong> &nbsp;
@@ -566,6 +566,7 @@ window.onload = function() {
         // Display the username if logged in
         const username = getCookie('username');
         const name = getCookie('name');
+        const email = getCookie('email');
         const profilePictureUrl = getCookie('profilePicture');
         if (username) {
             document.getElementById('profile-username').innerText = username;  // Display the username in the profile
@@ -573,6 +574,10 @@ window.onload = function() {
         
    if (name) {
             document.getElementById('profile-name').innerText = name;  // Display the username in the profile
+        }
+
+ if (email) {
+            document.getElementById('profile-email').innerText = email;  // Display the username in the profile
         }
       
         if (profilePictureUrl) {
