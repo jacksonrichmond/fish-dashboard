@@ -121,6 +121,29 @@
       });
     });
   </script>
+
+<script>
+    document.getElementById("signupForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+        
+        // Get form data
+        const formData = new FormData(this);
+
+        // Send the form data to the server
+        fetch('log_form_data.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data); // Alert success message or server response
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
