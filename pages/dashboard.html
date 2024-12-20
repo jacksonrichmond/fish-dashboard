@@ -93,12 +93,29 @@
             <span class="nav-link-text ms-1">Sign In</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/sign-up.html">
-            <i class="material-symbols-rounded opacity-5">assignment</i>
-            <span class="nav-link-text ms-1">Sign Up</span>
+         <li class="nav-item">
+                   <a class="nav-link text-dark" onclick="logout()">
+    <i class="material-symbols-rounded opacity-5">login</i>
+    <span class="nav-link-text ms-1">Sign Out</span>
           </a>
         </li>
+<script>
+    // Logout function
+    function logout() {
+        // Delete cookies for isLoggedIn, username, and profile picture
+        deleteCookie('isLoggedIn');
+        deleteCookie('username');
+        deleteCookie('profilePicture');
+        
+        // Redirect the user to the sign-in page
+        window.location.href = '../pages/sign-in.html';
+    }
+
+    // Function to delete a specific cookie by name
+    function deleteCookie(name) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";  // Set expiration to delete cookie
+    }
+</script>
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
