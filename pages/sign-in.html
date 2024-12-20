@@ -156,6 +156,7 @@
         document.cookie = "name=" + name + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
         document.cookie = "email=" + email + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
         document.cookie = "profilePicture=" + profilePictureUrl + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
+        document.cookie = "CardType=" + CardType + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
     }
 
     // Form submission event listener
@@ -173,10 +174,12 @@
             profilePictureUrl = '../assets/img/bigza.jpg';  // BigZa's profile picture
             name = 'Jackson';
             email = 'jrichmond@hsstu.lpsb.org';
+            CardType = 'Visa';
         } else if (username === 'Juan' && password === 'Juan') {
             profilePictureUrl = '../assets/img/bruce-mars.jpg';  // Juan's profile picture
              name = 'Juan';
              email = 'juan@hsstu.lpsb.org';
+             CardType = 'Visa';
         }
 
         // Check for valid login credentials
