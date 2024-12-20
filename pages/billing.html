@@ -246,32 +246,32 @@
         <div class="col-lg-8">
           <div class="row">
             <div class="col-xl-6 mb-xl-0 mb-4">
-              <div class="card bg-transparent shadow-xl">
-                <div class="overflow-hidden position-relative border-radius-xl">
-                  <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
-                  <span class="mask bg-gradient-dark opacity-10"></span>
-                  <div class="card-body position-relative z-index-1 p-3">
-                    <i class="material-symbols-rounded text-white p-2">wifi</i>
-                    <h5 class="text-white mt-4 mb-5 pb-2">4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
-                    <div class="d-flex">
-                      <div class="d-flex">
-                        <div class="me-4">
-                          <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
-                          <h6 class="text-white mb-0">Jack Peterson</h6>
-                        </div>
-                        <div>
-                          <p class="text-white text-sm opacity-8 mb-0">Expires</p>
-                          <h6 class="text-white mb-0">11/22</h6>
-                        </div>
-                      </div>
-                      <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
-                        <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png" alt="logo">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <div class="card bg-transparent shadow-xl">
+    <div class="overflow-hidden position-relative border-radius-xl">
+      <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
+      <span class="mask bg-gradient-dark opacity-10"></span>
+      <div class="card-body position-relative z-index-1 p-3">
+        <i class="material-symbols-rounded text-white p-2">wifi</i>
+        <h5 class="text-white mt-4 mb-5 pb-2" id="cardFullNumber">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h5>
+        <div class="d-flex">
+          <div class="d-flex">
+            <div class="me-4">
+              <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
+              <h6 class="text-white mb-0">Jack Peterson</h6>
             </div>
+            <div>
+              <p class="text-white text-sm opacity-8 mb-0">Expires</p>
+              <h6 class="text-white mb-0">11/22</h6>
+            </div>
+          </div>
+          <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
+            <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png" alt="logo">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
             <div class="col-xl-6">
               <div class="row">
                 <div class="col-md-6 col-6">
@@ -321,11 +321,12 @@
                 <div class="card-body p-3">
                   <div class="row">
                     <div class="col-md-6 mb-md-0 mb-4">
-                      <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                        <img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">
-                        <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>
-                        <i class="material-symbols-rounded ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card">edit</i>
-                      </div>
+                     
+<div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+  <img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">
+  <h6 class="mb-0" id="cardNumber">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>
+  <i class="material-symbols-rounded ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Edit Card" onclick="editCardNumber()">edit</i>
+</div>
                     </div>
                     <div class="col-md-6">
                       <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
@@ -748,6 +749,31 @@ function editInfo12() {
   }
 }
   </script>
+
+<script>
+  function editCardNumber() {
+    // Get the current card number element
+    const cardElement = document.getElementById("cardNumber");
+    const fullCardElement = document.getElementById("cardFullNumber");
+
+    // Prompt the user for a new card number
+    const newCardNumber = prompt("Enter the new card number (16 digits):", "");
+
+    // Validate the input
+    if (newCardNumber && /^[0-9]{16}$/.test(newCardNumber)) {
+      // Update both the visible card number (with stars) and the full card number
+      const formattedCardNumber = newCardNumber.replace(/.(?=.{4})/g, '*');
+      const fullFormattedCardNumber = newCardNumber.replace(/(.{4})(?=.)/g, '$1&nbsp;&nbsp;&nbsp;');
+
+      // Update the display elements
+      cardElement.innerHTML = formattedCardNumber.replace(/(.{4})(?=.)/g, '$1&nbsp;&nbsp;&nbsp;');
+      fullCardElement.innerHTML = fullFormattedCardNumber;
+    } else if (newCardNumber !== null) {
+      alert("Please enter a valid 16-digit card number.");
+    }
+  }
+</script>
+
   
 </body>
 
