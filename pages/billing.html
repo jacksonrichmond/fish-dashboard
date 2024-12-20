@@ -34,6 +34,12 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+ <style>
+    #box1.hidden {
+      display: none;
+    }
+  </style>
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -433,7 +439,7 @@ function deleteItem() {
   document.cookie = "box1=false; path=/; max-age=" + 60*60*24*365;  // Cookie will expire in one year
   
   // Hide the box from the DOM
-  document.getElementById("box1").style.display = "none";
+ document.getElementById("box1").classList.add("hidden");
 }
 
 // Function to edit details
@@ -472,7 +478,7 @@ function checkBoxVisibility() {
 
   if (box1Cookie && box1Cookie.split('=')[1] === 'false') {
     // If the 'box1' cookie value is 'false', hide the element
-    document.getElementById("box1").style.display = "none";
+   document.getElementById("box1").classList.add("hidden");
   }
 }
 
