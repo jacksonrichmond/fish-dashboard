@@ -73,12 +73,6 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/rtl.html">
-            <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
-            <span class="nav-link-text ms-1">RTL</span>
-          </a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link text-dark" href="../pages/notifications.html">
             <i class="material-symbols-rounded opacity-5">notifications</i>
             <span class="nav-link-text ms-1">Notifications</span>
@@ -247,8 +241,8 @@
             <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
                 <div>
-                  <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                  <h4 class="mb-0">$53k</h4>
+                  <p class="text-sm mb-0 text-capitalize">Today's Date</p>
+                  <h4 class="mb-0" id="current-date" >Loading</h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                   <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -938,6 +932,30 @@ function getCookie(name) {
     window.onload = function() {
       updateVisitorStats();
     };
+  </script>
+ <script>
+    // Function to get the current day, day number, month, and year
+    function getCurrentDateInfo() {
+      const now = new Date();
+
+      // Get the current day of the week (e.g., "Monday")
+      const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const dayOfWeek = daysOfWeek[now.getDay()]; // Get the day of the week
+
+      // Get the day number (e.g., 25)
+      const dayNumber = now.getDate(); // Get the day of the month
+
+      // Get the current month (e.g., "December")
+      const month = now.toLocaleString('default', { month: 'long' }); // Full month name
+
+      // Get the current year (e.g., 2024)
+      const year = now.getFullYear(); // Get the current year
+
+      return `${dayOfWeek}, ${dayNumber} ${month} ${year}`; // Return formatted string "Day, DayNumber Month Year"
+    }
+
+    // Set the current date info in the HTML
+    document.getElementById('current-date').textContent = getCurrentDateInfo();
   </script>
 
 </body>
