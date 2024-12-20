@@ -82,8 +82,10 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/profile.html">
-            <i class="material-symbols-rounded opacity-5">person</i>
+          <a href="../pages/profile.html" class="nav-link text-dark">
+            <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="" data-bs-original-title="">
+                            <img id="profile-picture" src="" alt="team1">
+                          </a>
             <span class="nav-link-text ms-1">Profile</span>
           </a>
         </li>
@@ -232,8 +234,7 @@
       <div class="row">
         <div class="ms-3">
           <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
-          <p class="mb-4">
-            Check the stats.
+          <p class="mb-4">Welcome, <span id="profile-username"></span> 
           </p>
         </div>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -869,24 +870,36 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
  <script>
-  window.onload = function() {
-      if (getCookie('isLoggedIn') === 'false') {  // Check if the 'isLoggedIn' cookie exists and its value is 'false'
-          window.location.href = '../pages/sign-in.html';  // Redirect to login page if not logged in
-      }
-  };
+window.onload = function() {
+    // Check if the user is logged in
+    if (!getCookie('isLoggedIn')) {
+        window.location.href = '../pages/sign-in.html';  // Redirect to login page if not logged in
+    } else {
+        // Display the username if logged in
+        const username = getCookie('username');
+        const profilePictureUrl = getCookie('profilePicture');
+        if (username) {
+            document.getElementById('profile-username').innerText = username;  // Display the username in the profile
+        }
+        
+        if (profilePictureUrl) {
+            document.getElementById('profile-picture').src = profilePictureUrl;  // Display the profile picture
+        }
+    }
+};
 
-  // Function to get the value of a specific cookie by name
-  function getCookie(name) {
-      const nameEQ = name + "=";
-      const ca = document.cookie.split(';');
-      for (let i = 0; i < ca.length; i++) {
-          let c = ca[i].trim();
-          if (c.indexOf(nameEQ) === 0) {
-              return c.substring(nameEQ.length, c.length);  // Return the cookie value
-          }
-      }
-      return null;  // Return null if the cookie is not found
-  }
+// Function to get the value of a specific cookie by name
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+            return c.substring(nameEQ.length, c.length);  // Return the cookie value
+        }
+    }
+    return null;  // Return null if the cookie is not found
+}
 </script>
 
  <script>
