@@ -265,7 +265,7 @@
             </div>
           </div>
           <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
-            <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png" alt="logo">
+          <img class="w-60 mt-2" id="cardLogo" src="../assets/img/logos/mastercard.png" alt="logo">
           </div>
         </div>
       </div>
@@ -325,7 +325,7 @@
 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
   <img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">
   <h6 class="mb-0" id="cardNumber">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>
-  <i class="material-symbols-rounded ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Edit Card" onclick="editCardNumber()">edit</i>
+  <i class="material-symbols-rounded ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Edit Card" onclick="editCardDetails()">edit</i>
 </div>
                     </div>
                     <div class="col-md-6">
@@ -751,6 +751,32 @@ function editInfo12() {
   </script>
 
 <script>
+  // Function to check the CardType cookie and update the card logo
+  function checkCardType() {
+    // Retrieve the CardType cookie value
+    const cardType = getCookie("CardType");
+
+    // Determine the image based on CardType cookie
+    const logoImage = (cardType === "Visa") ? "../assets/img/logos/visa.png" : "../assets/img/logos/mastercard.png";
+
+    // Update the logo image in both places (full-size and small-size)
+    document.getElementById("cardLogo").src = logoImage;
+    document.getElementById("cardLogoSmall").src = logoImage;
+  }
+
+  // Function to get a cookie value by name
+  function getCookie(name) {
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+    return "";
+  }
+
+  // Call the checkCardType function when the page loads
+  window.onload = function() {
+    checkCardType();
+  };
+
   function editCardDetails() {
     // Get the current card elements
     const cardElement = document.getElementById("cardNumber");
