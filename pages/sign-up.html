@@ -116,6 +116,11 @@ form.addEventListener('submit', e => {
     .catch(error => console.error('Error!', error.message));
 });
 
+    // Close the Terms Modal when "OK" is clicked
+termsModalCloseButton.addEventListener('click', () => {
+  termsModal.style.display = 'none';  // Hide the modal when OK is clicked
+});
+
   </script>
 
   <script src="../assets/js/core/popper.min.js"></script>
