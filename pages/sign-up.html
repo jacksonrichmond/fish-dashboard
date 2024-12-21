@@ -75,19 +75,24 @@
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzvtQtWGojk5sxSamGzLMxoMaRncknyAIlAoIdAZA74la9RtvouuEcuKrv9Zo78bL_g/exec'
 
-const form = document.forms['contact-form']
-
-
+const form = document.forms['contact-form'];
 
 form.addEventListener('submit', e => {
+  e.preventDefault();
   
-  e.preventDefault()
+  const formData = new FormData(form);
   
-  fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-  .then(response => alert("Thank you! Form is submitted" ))
-  .then(() => { window.location.reload(); })
-  .catch(error => console.error('Error!', error.message))
-})
+  // Log FormData to check if password is included
+  for (const pair of formData.entries()) {
+    console.log(pair[0] + ': ' + pair[1]); // Log field name and value
+  }
+  
+  fetch(scriptURL, { method: 'POST', body: formData })
+    .then(response => alert("Thank you! Form is submitted"))
+    .then(() => { window.location.reload(); })
+    .catch(error => console.error('Error!', error.message));
+});
+
   </script>
 
   <script src="../assets/js/core/popper.min.js"></script>
