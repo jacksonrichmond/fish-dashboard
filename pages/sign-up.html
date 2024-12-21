@@ -11,6 +11,7 @@
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet">
+  <link href="../../assets/css/sweet-alerts.css" type="text/css" rel="stylesheet">
 </head>
 <body>
   <div class="container position-sticky z-index-sticky top-0">
@@ -47,7 +48,7 @@
                       <label class="form-label">Password</label>
                       <input type="password"  name="Password" id="Password" class="form-control" required>
                     </div>
-                    <div class="form-check form-check-info text-start ps-0">
+                    <div  class="form-check form-check-info text-start ps-0">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                         <label class="form-check-label" for="flexCheckDefault">
                             I agree to the <a href="javascript:toc;" class="text-dark font-weight-bolder">Terms and Conditions</a>
@@ -58,16 +59,7 @@
                     </div>
                   </form>
                 </div>
-<!-- Custom Swal2 Modal (Terms and Conditions Notification) -->
-<div id="termsModal" class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;">
-  <div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;">
-    <button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button>
-    <h2 class="swal2-title" id="swal2-title">You must agree to the Terms and Conditions</h2>
-    <div class="swal2-actions">
-      <button type="button" class="swal2-confirm swal2-styled" aria-label="" style="display: inline-block;">OK</button>
-    </div>
-  </div>
-</div>
+
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-2 text-sm mx-auto">
                     Already have an account?
@@ -80,6 +72,16 @@
         </div>
       </div>
     </section>
+<!-- Custom Swal2 Modal (Terms and Conditions Notification) -->
+<div id="termsModal" class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;">
+  <div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;">
+    <button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button>
+    <h2 class="swal2-title" id="swal2-title">You must agree to the Terms and Conditions</h2>
+    <div class="swal2-actions">
+      <button type="button" class="swal2-confirm swal2-styled" aria-label="" style="display: inline-block;">OK</button>
+    </div>
+  </div>
+</div>
   </main>
 
   <script>
