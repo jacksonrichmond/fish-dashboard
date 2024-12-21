@@ -98,8 +98,7 @@ form.addEventListener('submit', e => {
   
   fetch(scriptURL, { method: 'POST', body: formData })
     .then(response => alert("Signed Up Successful! Notice, Accounts will be added at 5:00 PM every day so your info will not be added to the database instantly."))
-    document.getElementById('name').value = '';  // Clear the username input field
-      document.getElementById('Password').value = '';  // Clear the password input field
+    .then(() => { window.location.reload(); })
     .catch(error => console.error('Error!', error.message));
 });
 
