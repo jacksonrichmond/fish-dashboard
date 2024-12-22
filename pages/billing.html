@@ -103,6 +103,7 @@
         deleteCookie('email');
         deleteCookie('name');
         deleteCookie('CardType');
+        deleteCookie('password');
         
         // Redirect the user to the sign-in page
         window.location.href = '../pages/sign-in.html';
@@ -799,6 +800,67 @@ function editInfo12() {
   }
 </script>
 
+
+ <script>
+        // Function to read a cookie by name
+        function readCookie(name) {
+            name = name + "=";
+            var decodedCookies = decodeURIComponent(document.cookie);
+            var cookiesArray = decodedCookies.split(';');
+            for (var i = 0; i < cookiesArray.length; i++) {
+                var cookie = cookiesArray[i].trim();
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        // Function to set a cookie with a specified name, value, and expiration time
+        function setCookie(name, value, days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        // Variable to track the inactivity timer
+        let inactivityTimer;
+
+        // Function to handle user activity (reset inactivity timer)
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer); // Clear the previous timer
+            inactivityTimer = setTimeout(lockAccount, 5 * 60 * 1000); // Set a new timer for 5 minutes
+        }
+
+        // Function to lock the account by setting the 'locked' cookie and refreshing the page
+        function lockAccount() {
+            setCookie('locked', 'true', 1); // Set the 'locked' cookie to true
+            location.reload(); // Refresh the page
+        }
+
+        // Function to check if the account is locked
+        function checkAccountLock() {
+            var locked = readCookie('locked');
+            if (locked === 'true') {
+               window.location.href = '../pages/lock.html';
+                // Optionally, you could redirect the user to a login page or show a lock screen
+                //  // For example
+            }
+        }
+
+        // Event listeners to detect user activity (mouse movement and key press)
+        document.addEventListener('mousemove', resetInactivityTimer);
+        document.addEventListener('keypress', resetInactivityTimer);
+
+        // Initial check for locked state on page load
+        checkAccountLock();
+
+        // Initialize the inactivity timer
+        resetInactivityTimer();
+
+    </script>
+        
   
 </body>
 
