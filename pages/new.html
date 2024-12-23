@@ -1863,73 +1863,71 @@
     </nav>
 
 
+
 <div class="container-fluid py-2">
-          <div class="row">
-            <div class="input-group input-group-outline">
-                  <label class="form-label">Search here</label>
-                  <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                </div>
-            
-          </div>
-          <div class="row my-4">
-            <div class="col-12">
-              <div class="card">
-                <div class="table-responsive">
-                  <table class="table align-items-center mb-0">
-                    <thead>
-                      <tr>
-                        <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Name</th>
-                        <th class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">Username</th>
-                        <th class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">User Type</th>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">Email</th>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">Join Date</th>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <div class="d-flex px-2 py-1">
-                            <div>
-                              <img src="../../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="avatar image">
-                            </div>
-                            <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 font-weight-normal text-sm">Example</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-normal mb-0">@Example</p>
-                        </td>
-                        <td>
-                          <span class="badge badge-dot me-4">
-                            
-                            <span class="text-dark text-xs">Admin</span>
-                          </span>
-                        </td>
-                        <td class="align-middle text-center text-sm">
-                          <p class="mb-0 font-weight-normal text-sm">example@user.com</p>
-                        </td>
-                        <td class="align-middle text-center">
-                          <p class="text-sm font-weight-normal mb-0">Oct 24, 2022</p>
-                        </td>
-                        <td class="align-middle text-center">
-                         <a href="javascript:edit1;">
-                        <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit Profile" data-bs-original-title="Edit Profile"></i>
-                      </a>
-                        </td>
-                      </tr>
-                      
-                      
-                      
-                      
-                      
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div class="row">
+    <div class="input-group input-group-outline">
+      <label class="form-label"></label>
+      <!-- Add an id to the input for easier access -->
+      <input type="text" id="searchInput" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" placeholder="Search by name...">
+    </div>
+  </div>
+
+  <div class="row my-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table align-items-center mb-0">
+            <thead>
+              <tr>
+                <th class="text-uppercase text-xxs font-weight-bolder opacity-7">Name</th>
+                <th class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">Username</th>
+                <th class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">User Type</th>
+                <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">Email</th>
+                <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">Join Date</th>
+                <th class="text-center text-uppercase text-xxs font-weight-bolder opacity-7">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody"> <!-- Added an ID to the tbody -->
+              <tr>
+                <td>
+                  <div class="d-flex px-2 py-1">
+                    <div>
+                      <img src="../../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="avatar image">
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 font-weight-normal text-sm">Example</h6>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <p class="text-sm font-weight-normal mb-0">@Example</p>
+                </td>
+                <td>
+                  <span class="badge badge-dot me-4">
+                    <span class="text-dark text-xs">Admin</span>
+                  </span>
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <p class="mb-0 font-weight-normal text-sm">example@user.com</p>
+                </td>
+                <td class="align-middle text-center">
+                  <p class="text-sm font-weight-normal mb-0">Oct 24, 2022</p>
+                </td>
+                <td class="align-middle text-center">
+                  <a href="javascript:edit1;">
+                    <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit Profile" data-bs-original-title="Edit Profile"></i>
+                  </a>
+                </td>
+              </tr>
+              <!-- Additional rows here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
           <footer class="footer py-4  ">
             <div class="container-fluid">
               <div class="row align-items-center justify-content-lg-between">
@@ -2058,6 +2056,27 @@
   }
 </script>
 
+
+<script>
+  document.getElementById('searchInput').addEventListener('keyup', function() {
+    const filter = this.value.toLowerCase(); // Get the search term and convert to lowercase
+    const rows = document.querySelectorAll('#userTableBody tr'); // Get all rows in the tbody
+    
+    // Loop through all rows and hide those that don't match the search
+    rows.forEach(function(row) {
+      const nameCell = row.querySelector('td h6'); // Select the name cell (assuming name is in <h6> tag)
+      if (nameCell) {
+        const nameText = nameCell.textContent || nameCell.innerText;
+        if (nameText.toLowerCase().includes(filter)) {
+          row.style.display = ''; // Show row
+        } else {
+          row.style.display = 'none'; // Hide row
+        }
+      }
+    });
+  });
+</script>
+  
 </body>
 
 </html>
