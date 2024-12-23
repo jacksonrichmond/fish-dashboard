@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Picture Generator</title>
+  <style>
+    /* Styles for the profile picture container */
+    .profile-picture {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      color: white;
+      text-transform: uppercase;
+      font-weight: bold;
+      background-color: #4CAF50; /* Default background color */
+      display: none; /* Initially hidden */
+    }
+
+    /* Styles for the image profile picture */
+    .avatar-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+
+    .button-container {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Input form to enter name -->
+  <div>
+    <label for="name">Enter your first name:</label>
+    <input type="text" id="name" placeholder="First Name">
+    <button onclick="generatePFP()">Generate PFP</button>
+  </div>
+
+  <!-- Container for the profile picture (image or generated) -->
+  <div>
+    <!-- Default avatar image -->
+    <img id="avatarImage" class="avatar-image me-3" src="../assets/img/team-2.jpg" alt="avatar image" />
+    <!-- Default generated profile picture -->
+    <div id="pfpContainer" class="profile-picture"></div>
+  </div>
+
+  <div class="button-container">
+    <!-- Button to download the generated image -->
+    <button id="downloadBtn" style="display: none;" onclick="downloadImage()">Download PFP</button>
+  </div>
+
+  <script>
+    function generatePFP() {
+      // Get the input value (first name)
+      const firstName = document.getElementById('name').value.trim();
+      const avatarImage = document.getElementById('avatarImage');
+      const pfpContainer = document.getElementById('pfpContainer');
+      const downloadBtn = document.getElementById('downloadBtn');
+
+      if (firstName) {
+        // Get the first letter of the first name
+        const firstLetter = firstName.charAt(0).toUpperCase();
+
+        // Generate a random background color
+        const randomColor = getRandomColor();
+
+        // Set the profile picture container to show and hide the image
+        pfpContainer.style.display = 'flex';
+        pfpContainer.innerText = firstLetter;
+        pfpContainer.style.backgroundColor = randomColor;
+
+        // Hide the default image
+        avatarImage.style.display = 'none';
+
+        // Show the download button
+        downloadBtn.style.display = 'inline-block';
+
+        // Store the generated SVG image data for download
+        const svgData = generateSVG(firstLetter, randomColor);
+        window.generatedSVG = svgData;  // Store in global variable for download
+      } else {
+        alert('Please enter your first name.');
+      }
+    }
+
+    // Function to generate the SVG image as a string
+    function generateSVG(letter, color) {
+      return `
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50" fill="${color}" />
+          <text x="50" y="50" font-size="40" text-anchor="middle" fill="white" dy=".3em">${letter}</text>
+        </svg>
+      `;
+    }
+
+    // Function to generate a random color
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Function to download the SVG as a PNG image
+    function downloadImage() {
+      const svgData = window.generatedSVG;
+
+      // Create an image from the SVG string using canvas
+      const img = new Image();
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(svgBlob);
+      img.src = url;
+
+      img.onload = function() {
+        // Create a canvas to draw the image on
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 100;
+        canvas.height = 100;
+
+        // Draw the image onto the canvas
+        ctx.drawImage(img, 0, 0, 100, 100);
+
+        // Convert the canvas to a PNG image data URL
+        const imgData = canvas.toDataURL('image/png');
+
+        // Create a temporary link to trigger the download
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'profile_picture.png';  // Set default file name
+        link.click();  // Trigger the download
+      };
+    }
+  </script>
+
+</body>
+</html>
