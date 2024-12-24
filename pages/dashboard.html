@@ -1166,9 +1166,7 @@
                     const button = document.getElementById('toggleButton');
                     button.textContent = newState ? "Off" : "On"; // Update button text
                     // Optionally, redirect to the "under construction" page if the state is true
-                    if (newState) {
-                        window.location.href = '..pages/under.html';
-                    }
+                   
                 };
 
                 updateRequest.onerror = function () {
