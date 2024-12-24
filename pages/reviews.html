@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews with Timestamp, Layout, and Star Rating</title>
+    <style>
+        /* Basic styles for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        /* Button Styling */
+        .add-review-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            margin: 20px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-review-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Pop-up Modal */
+        .review-form-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 100px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .review-form-modal.open {
+            display: block;
+            opacity: 1;
+        }
+
+        .review-form-content {
+            background-color: white;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            transform: translateY(-50px);
+        }
+
+        .review-form-modal.open .review-form-content {
+            transform: translateY(0);
+        }
+
+        .close-btn {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Form Elements */
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            margin-top: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Masonry Layout for Reviews */
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        .review-item {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .review-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .review-content {
+            margin-top: 10px;
+        }
+
+        /* Review content container similar to provided code */
+        .ReviewContent__Container {
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .ReviewText__Container {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .ReviewText__Container .es-review-content-text {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .ReviewTextControl__Control {
+            cursor: pointer;
+            color: #007BFF;
+            font-size: 14px;
+        }
+
+        .review-timestamp {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        /* Star rating styles */
+        .star-rating {
+            font-size: 18px;
+            color: gold;
+            margin-top: 8px;
+        }
+
+        .star-rating .star {
+            margin-right: 3px;
+        }
+
+        .star-rating .star-empty {
+            color: #ccc;
+        }
+
+        .read-more {
+            cursor: pointer;
+            color: #007BFF;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Add Review Button -->
+    <div class="header-container">
+        <button id="addReviewBtn" class="add-review-btn">Add Review</button>
+    </div>
+
+    <!-- Pop-Up Review Form -->
+    <div id="reviewFormModal" class="review-form-modal">
+        <div class="review-form-content">
+            <span class="close-btn">&times;</span>
+            <h2>Leave a Review</h2>
+            <form id="reviewForm">
+                <label for="reviewTitle">Title:</label>
+                <input type="text" id="reviewTitle" name="reviewTitle" required placeholder="Enter review title...">
+                <label for="reviewContent">Review:</label>
+                <textarea id="reviewContent" name="reviewContent" required placeholder="Write your review..."></textarea>
+                <label for="reviewRating">Rating:</label>
+                <input type="number" id="reviewRating" name="reviewRating" min="1" max="5" required placeholder="Rating (1-5)">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Posted Reviews Section -->
+    <div id="reviewsContainer" class="reviews-container">
+        <!-- Reviews will be added dynamically here in a masonry layout -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dbName = 'reviewsDB';
+            const storeName = 'reviewsStore';
+
+            // Open IndexedDB
+            const openDb = indexedDB.open(dbName, 1);
+
+            openDb.onupgradeneeded = function (event) {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains(storeName)) {
+                    db.createObjectStore(storeName, { autoIncrement: true });
+                }
+            };
+
+            openDb.onerror = function (event) {
+                console.error('Error opening IndexedDB:', event);
+            };
+
+            openDb.onsuccess = function (event) {
+                const db = event.target.result;
+
+                // Load reviews from IndexedDB
+                loadReviews(db);
+
+                // Event listener for opening the form
+                const addReviewBtn = document.getElementById('addReviewBtn');
+                const reviewFormModal = document.getElementById('reviewFormModal');
+                const closeBtn = document.querySelector('.close-btn');
+
+                // Ensure the add button opens the modal
+                addReviewBtn.addEventListener('click', function () {
+                    reviewFormModal.classList.add('open');
+                });
+
+                // Ensure the close button works
+                closeBtn.addEventListener('click', function () {
+                    reviewFormModal.classList.remove('open');
+                });
+
+                // Close modal if clicking outside the form
+                window.addEventListener('click', function (event) {
+                    if (event.target === reviewFormModal) {
+                        reviewFormModal.classList.remove('open');
+                    }
+                });
+
+                // Handle form submission
+                const reviewForm = document.getElementById('reviewForm');
+                reviewForm.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const title = document.getElementById('reviewTitle').value;
+                    const content = document.getElementById('reviewContent').value;
+                    const rating = document.getElementById('reviewRating').value;
+
+                    saveReview(db, title, content, rating);
+
+                    // Close the form modal after submission
+                    reviewFormModal.classList.remove('open');
+                });
+            };
+
+            // Save review to IndexedDB
+            function saveReview(db, title, content, rating) {
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+                const timestamp = new Date().toISOString();
+                const review = { title, content, rating: parseInt(rating), timestamp };
+
+                store.add(review);
+
+                transaction.oncomplete = function () {
+                    loadReviews(db); // Reload reviews
+                };
+            }
+
+            // Load reviews from IndexedDB
+            function loadReviews(db) {
+                const reviewsContainer = document.getElementById('reviewsContainer');
+                const transaction = db.transaction([storeName], 'readonly');
+                const store = transaction.objectStore(storeName);
+                const request = store.getAll();
+
+                request.onsuccess = function (event) {
+                    const reviews = event.target.result;
+                    reviewsContainer.innerHTML = ''; // Clear previous reviews
+
+                    reviews.forEach(review => {
+                        const reviewItem = document.createElement('div');
+                        reviewItem.classList.add('review-item');
+
+                        const shortText = review.content.length > 62 ? review.content.substring(0, 62) + '...' : review.content;
+
+                        const reviewHTML = `
+                            <div class="ReviewContent__Container">
+                                <div class="ReviewText__Container">
+                                    <div class="es-review-content-text">${shortText}</div>
+                                    <div class="star-rating">
+                                        ${generateStars(review.rating)}
+                                    </div>
+                                    <div class="review-timestamp">${timeAgo(review.timestamp)}</div>
+                                    ${review.content.length > 62 ? 
+                                        `<div class="read-more" onclick="toggleReviewText(this, '${review.content}', event)">Read more</div>` : 
+                                        ''}
+                                </div>
+                            </div>
+                        `;
+                        reviewItem.innerHTML = reviewHTML;
+                        reviewsContainer.appendChild(reviewItem);
+                    });
+                };
+
+                request.onerror = function (event) {
+                    console.error('Error loading reviews:', event);
+                };
+            }
+
+            // Toggle full review content visibility and expand the box
+            function toggleReviewText(button, fullText, event) {
+                const reviewTextContainer = button.previousElementSibling;
+                const reviewContainer = button.closest('.ReviewText__Container');
+
+                // Toggle review text and expand/collapse the container height
+                if (reviewTextContainer.textContent === fullText.substring(0, 62) + '...') {
+                    reviewTextContainer.textContent = fullText;
+                    button.textContent = 'Read less';
+                    reviewContainer.style.maxHeight = `${reviewContainer.scrollHeight}px`;
+                } else {
+                    reviewTextContainer.textContent = fullText.substring(0, 62) + '...';
+                    button.textContent = 'Read more';
+                    reviewContainer.style.maxHeight = '150px'; // Default max height for short reviews
+                }
+            }
+
+            // Generate star rating
+            function generateStars(rating) {
+                let stars = '';
+                for (let i = 0; i < 5; i++) {
+                    if (i < rating) {
+                        stars += '★';
+                    } else {
+                        stars += '☆';
+                    }
+                }
+                return stars;
+            }
+
+            // Time ago function
+            function timeAgo(timestamp) {
+                const now = new Date();
+                const diff = now - new Date(timestamp);
+                const seconds = Math.floor(diff / 1000);
+                const minutes = Math.floor(seconds / 60);
+                const hours = Math.floor(minutes / 60);
+                const days = Math.floor(hours / 24);
+
+                if (seconds < 60) return `${seconds} seconds ago`;
+                if (minutes < 60) return `${minutes} minutes ago`;
+                if (hours < 24) return `${hours} hours ago`;
+                return `${days} days ago`;
+            }
+        });
+    </script>
+
+</body>
+</html>
