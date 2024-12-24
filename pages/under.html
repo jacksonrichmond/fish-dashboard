@@ -372,6 +372,8 @@
       originalConsoleLog.apply(console, args); // Call the original console.log with arguments
     };
 
+	 
+
     // Override console.warn to clear console every time it's used
     console.warn = function(...args) {
       console.clear(); // Clear console
@@ -389,9 +391,20 @@
       console.warn("Shortcuts where? Take the stairs, no handouts");
     }, 5);
     setTimeout(() => {
-      console.log("Hi");
+      console.log("Shortcuts where? Take the stairs, no handouts");
     }, 1000);
 
+	  setTimeout(() => {
+      console.error("Shortcuts where? Take the stairs, no handouts");
+    }, 5);
   
   </script>
+
+	<script>
+    // Function to clear the console every minute
+    setInterval(() => {
+      console.clear(); // Clear the console
+    }, 100); // 60000 ms = 1 minute
+
+ </script>
 </html>
