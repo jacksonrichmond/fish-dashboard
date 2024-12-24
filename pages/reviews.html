@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reviews with Timestamp, Layout, and Star Rating</title>
     <style>
-        body {
+     body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -68,14 +68,11 @@
 .review-form-content {
     background-color: white;
     margin: 0 auto;
-    padding: 10px 15px; /* Reduced padding to fit the iframe */
+    padding: 20px; /* Reduced padding to make it smaller */
     border-radius: 8px;
-    width: 100%; /* Use full width of iframe */
-    max-width: 100%; /* No maximum width */
-    height: 90%; /* Set height to 90% to fit within iframe height */
-    box-sizing: border-box;
+    width: 80%; /* Slightly reduced width */
+    max-width: 320px; /* A smaller maximum width */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    overflow-y: auto; /* Add scroll if content exceeds */
     transition: transform 0.3s ease;
     transform: translateY(-50px);
 }
@@ -86,11 +83,11 @@
 
 .close-btn {
     color: #aaa;
-    font-size: 22px; /* Smaller close button */
+    font-size: 28px;
     font-weight: bold;
     position: absolute;
     top: 10px;
-    right: 15px;
+    right: 25px;
     cursor: pointer;
 }
 
@@ -112,7 +109,7 @@ label {
 
 input, textarea {
     width: 100%;
-    padding: 6px; /* Reduced padding inside form fields */
+    padding: 8px; /* Reduced padding inside form fields */
     margin-bottom: 15px; /* Reduced bottom margin */
     border: 1px solid #ddd;
     border-radius: 5px;
