@@ -289,7 +289,8 @@
               <div class="d-flex justify-content-between">
                 <div>
                   <p class="text-sm mb-0 text-capitalize" >Under Construction</p>
-                 <button id="updateButton" class="button">On</button>
+                  <button id="toggleButton" onclick="toggleConstruction()" class = "button
+     ">Loading...</button>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                   <i class="material-symbols-rounded opacity-10">leaderboard</i>
@@ -1100,17 +1101,18 @@
         resetInactivityTimer();
 
     </script>
-<script>
-        // Open IndexedDB
+ <script>
+        // Open IndexedDB and create the database if it doesn't exist
         const openDatabase = () => {
             return new Promise((resolve, reject) => {
                 const request = indexedDB.open('siteData', 1);
 
+                // Setup the database schema on upgrade
                 request.onupgradeneeded = function (e) {
                     const db = e.target.result;
                     if (!db.objectStoreNames.contains('settings')) {
                         const store = db.createObjectStore('settings', { keyPath: 'id' });
-                        store.add({ id: 'under', value: false }); // default value set to false
+                        store.add({ id: 'under', value: false }); // Default is false (construction off)
                     }
                 };
 
@@ -1124,37 +1126,60 @@
             });
         };
 
-        // Update the 'under' value to true
-        const updateUnderConstruction = async () => {
+        // Function to check the construction state and update the button text
+        const updateButtonText = async () => {
             const db = await openDatabase();
-            const transaction = db.transaction('settings', 'readwrite');
+            const transaction = db.transaction('settings', 'readonly');
             const store = transaction.objectStore('settings');
 
-            // Get the current record for 'under'
             const getRequest = store.get('under');
             getRequest.onsuccess = function () {
                 const data = getRequest.result;
-                if (data) {
-                    data.value = true;  // Update the value to true
-                    const updateRequest = store.put(data); // Save the updated value back
-                    updateRequest.onsuccess = function () {
-                        console.log('Updated under construction status to true.');
-                        alert('Site is now under construction.');
-                    };
-                    updateRequest.onerror = function () {
-                        console.error('Failed to update the value.');
-                    };
+                const button = document.getElementById('toggleButton');
+                if (data && data.value === true) {
+                    button.textContent = "Off"; // Construction is ON
+                } else {
+                    button.textContent = "On";  // Construction is OFF
                 }
             };
+
             getRequest.onerror = function () {
                 console.error('Failed to retrieve the "under" value.');
             };
         };
 
-        // Event listener for the button
-        document.getElementById('updateButton').addEventListener('click', updateUnderConstruction);
+        // Function to toggle the construction state
+        const toggleConstruction = async () => {
+            const db = await openDatabase();
+            const transaction = db.transaction('settings', 'readwrite');
+            const store = transaction.objectStore('settings');
+
+            const getRequest = store.get('under');
+            getRequest.onsuccess = function () {
+                const data = getRequest.result;
+                const newState = !data.value; // Toggle the current state (true <-> false)
+
+                // Update the value in IndexedDB
+                const updateRequest = store.put({ id: 'under', value: newState });
+                updateRequest.onsuccess = function () {
+                    // Update the button text after toggling the state
+                    const button = document.getElementById('toggleButton');
+                    button.textContent = newState ? "Off" : "On"; // Update button text
+                    // Optionally, redirect to the "under construction" page if the state is true
+                    if (newState) {
+                        window.location.href = '..pages/under.html';
+                    }
+                };
+
+                updateRequest.onerror = function () {
+                    console.error('Failed to update the "under" value.');
+                };
+            };
+        };
+
+        // Call updateButtonText when the page loads to set the button text based on the current state
+        window.onload = updateButtonText;
     </script>
-  
 </body>
 
 </html>
