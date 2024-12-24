@@ -391,36 +391,61 @@ function getCookie(name) {
 }
 </script>
 
-  <script>
-        // Function to read the cookie
-        function readCookie(name) {
-            name = name + "=";
-            var decodedCookies = decodeURIComponent(document.cookie);
-            var cookiesArray = decodedCookies.split(';');
-            for (var i = 0; i < cookiesArray.length; i++) {
-                var cookie = cookiesArray[i].trim();
-                if (cookie.indexOf(name) == 0) {
-                    return cookie.substring(name.length, cookie.length);
+<script>
+    // Function to read the cookie
+    function readCookie(name) {
+        name = name + "=";
+        var decodedCookies = decodeURIComponent(document.cookie);
+        var cookiesArray = decodedCookies.split(';');
+        for (var i = 0; i < cookiesArray.length; i++) {
+            var cookie = cookiesArray[i].trim();
+            if (cookie.indexOf(name) == 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+        return "";
+    }
+
+    // Function to handle the unlock button click event
+    function unlockAccount() {
+        var usernameStored = readCookie("username");  // Read the stored username from the cookie
+        var passwordEntered = document.getElementById("password").value;  // Get the password input
+
+        if (!usernameStored) {
+            alert("No user is logged in.");
+            return;
+        }
+
+        // Fetch user data from the JSON file
+        fetch('../assets/auth/users.json')  // Replace with the actual path to your JSON file
+            .then(response => response.json())
+            .then(users => {
+                // Find the user by the username from the cookie
+                var user = users.find(u => u.username === usernameStored);
+
+                if (user) {
+                    // Compare the entered password with the password from the JSON file
+                    if (passwordEntered === user.password) {
+                        // If the password is correct, delete the 'locked' cookie and redirect
+                        deleteCookie('locked');
+                        window.location.href = "../pages/dashboard.html";  // Redirect to the dashboard page if password is correct
+                    } else {
+                        alert("Incorrect password");  // Show an alert if the password is incorrect
+                    }
+                } else {
+                    alert("User not found");  // Show an alert if the user is not found
                 }
-            }
-            return "";
-        }
+            })
+            .catch(error => {
+                console.error("Error fetching user data:", error);  // Handle any errors from fetching the JSON file
+            });
+    }
 
-        // Function to handle the unlock button click event
-        function unlockAccount() {
-            var passwordEntered = document.getElementById("password").value; // Get the password input
-            var storedPassword = readCookie("password"); // Read the stored password from the cookie
-
-            if (passwordEntered === storedPassword) {
-		     deleteCookie('locked');
-                window.location.href = "../pages/dashboard.html"; // Redirect to the dashboard page if password is correct
-            } else {
-                alert("Incorrect password"); // Show an alert if password is incorrect
-            }
-        }
-	   function deleteCookie(name) {
+    // Function to delete a cookie
+    function deleteCookie(name) {
         document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";  // Set expiration to delete cookie
     }
-    </script>
+</script>
+
 
 <div dji-sru-rewordify-popup="true"><div class="dji-sru-close-btn"></div><div dji-sru-rewordify-body="true" tabindex="0"><div dji-non-draggable="true"></div></div><div class="dji-geom-ctrl-resize-top"></div><div class="dji-geom-ctrl-resize-bottom"></div><div class="dji-geom-ctrl-resize-left"></div><div class="dji-geom-ctrl-resize-right"></div><div class="dji-geom-ctrl-resize-top-left"></div><div class="dji-geom-ctrl-resize-top-right"></div><div class="dji-geom-ctrl-resize-bottom-right"></div><div class="dji-geom-ctrl-resize-bottom-left"></div><div class="geomCtrlContainerOverlay"></div></div><div id="dji-sru-busy-state"></div><div id="ee77ae8a-1c53-4871-ba9c-dc92a1a3c306" data-gg-chat-anchor="true" style="z-index: 2147483646; position: relative; display: block; height: 0px; min-height: 0px; width: 0px; min-width: 0px; margin: 0px; padding: 0px; border: 0px;"><div data-reactroot=""></div></div><div id="d4d733bc-64d2-46dd-8527-6615dc92d5ba" data-gg-privacy-banner-anchor="true" style="z-index: 2147483646; position: relative; display: block; height: 0px; min-height: 0px; width: 0px; min-width: 0px; margin: 0px; padding: 0px; border: 0px;"><div data-reactroot="" style="all: initial !important;"><div style="position: fixed; z-index: 2147483638; transform: translate3d(0px, 0px, 0px); height: 204px; min-width: 42px; top: 16px; left: 16px;"><div id="gg-privacy-banner" class="_28iyuGPZ2h-aEVPD3i6lpi" aria-labelledby="privacy-bubble-heading" aria-describedby="privacy-bubble-description"><button type="button" id="privacy-bubble-button" aria-label="GoGuardian Privacy Information" aria-expanded="false" aria-controls="privacy-bubble-text" tabindex="0" class="_20Whiarh1uNWgED8vjBTfF" style="transform: translate3d(0px, 0px, 0px);"><div class="blP1Oc4LUJ2bB_Xs7lbfH"><svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg" style="fill: none; margin-top: 10px; margin-left: 9px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.27975 7.22H0.239746V20.66H5.27975V7.22ZM5.27951 10.58H2.75951V12.26H5.27951V10.58ZM2.75951 13.1H5.27951V14.78H2.75951V13.1ZM5.27951 15.62H2.75951V17.3H5.27951V15.62Z" fill="white"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M23.7599 13.94H20.3999V20.66H23.7599V13.94ZM21.24 16.46H20.4V19.82H21.24V16.46Z" fill="white"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M13.68 0.919998L6.95996 4.90255V20.66L11.16 20.66V16.46H9.48V15.62H17.88V16.46H16.2V20.66L20.4 20.66V4.90255L13.68 0.919998ZM17.04 8.9C17.04 10.7557 15.5357 12.26 13.68 12.26C11.8243 12.26 10.32 10.7557 10.32 8.9C10.32 7.04432 11.8243 5.54 13.68 5.54C15.5357 5.54 17.04 7.04432 17.04 8.9Z" fill="white"></path><circle cx="13.6795" cy="8.9" r="1.68" fill="white"></circle></svg></div></button></div></div></div></div><dji-sru-distraction></dji-sru-distraction><div dji-sru-rewordify-popup="true"><div class="dji-sru-close-btn"></div><div dji-sru-rewordify-body="true" tabindex="0"><div dji-non-draggable="true"></div></div><div class="dji-geom-ctrl-resize-top"></div><div class="dji-geom-ctrl-resize-bottom"></div><div class="dji-geom-ctrl-resize-left"></div><div class="dji-geom-ctrl-resize-right"></div><div class="dji-geom-ctrl-resize-top-left"></div><div class="dji-geom-ctrl-resize-top-right"></div><div class="dji-geom-ctrl-resize-bottom-right"></div><div class="dji-geom-ctrl-resize-bottom-left"></div><div class="geomCtrlContainerOverlay"></div></div></body><dji-sru id="__dji_sru_components"></dji-sru><dji-sru id="__dji_sru_main_container"></dji-sru><dji-cowriter tabindex="-1"></dji-cowriter></html>
