@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -31,28 +30,57 @@
     .button-container {
       margin-top: 20px;
     }
+
+    /* Styles for the color dropdown */
+    select {
+      padding: 5px;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
-
   <!-- Input form to enter name -->
   <div>
     <label for="name">Enter your first name:</label>
     <input type="text" id="name" placeholder="First Name">
+  </div>
+
+  <!-- Dropdown menu to pick a color -->
+  <div>
+    <label for="color">Select color:</label>
+    <select id="color">
+      <option value="#4CAF50">Green</option>
+      <option value="#FF5733">Red</option>
+      <option value="#2980B9">Blue</option>
+      <option value="#F39C12">Yellow</option>
+      <option value="#8E44AD">Purple</option>
+      <option value="#D35400">Orange</option>
+      <option value="#2C3E50">Dark Blue</option>
+      <option value="#7F8C8D">Gray</option>
+      <option value="#F1C40F">Gold</option>
+      <option value="#D3B897">Tan</option>
+      <option value="#8B4513">Brown</option>
+      <option value="#E67E22">Carrot Orange</option>
+      <option value="#16A085">Teal</option>
+    </select>
+  </div>
+
+  <div class="button-container">
+    <!-- Button to generate profile picture -->
     <button onclick="generatePFP()">Generate PFP</button>
   </div>
 
   <!-- Container for the profile picture (image or generated) -->
   <div>
     <!-- Default avatar image -->
-    <img id="avatarImage" class="avatar-image me-3" src="../assets/img/team-2.jpg" alt="avatar image" />
+    <img id="avatarImage" class="avatar-image me-3" src="avatar.jpg" alt="avatar image" style="display: none;">
     <!-- Default generated profile picture -->
-    <div id="pfpContainer" class="profile-picture"></div>
+    <div id="pfpContainer" class="profile-picture" style="display: flex; background-color: rgb(238, 146, 61);">W</div>
   </div>
 
   <div class="button-container">
     <!-- Button to download the generated image -->
-    <button id="downloadBtn" style="display: none;" onclick="downloadImage()">Download PFP</button>
+    <button id="downloadBtn" style="display: inline-block;" onclick="downloadImage()">Download PFP</button>
   </div>
 
   <script>
@@ -63,17 +91,17 @@
       const pfpContainer = document.getElementById('pfpContainer');
       const downloadBtn = document.getElementById('downloadBtn');
 
+      // Get the selected color from the dropdown
+      const selectedColor = document.getElementById('color').value;
+
       if (firstName) {
         // Get the first letter of the first name
         const firstLetter = firstName.charAt(0).toUpperCase();
 
-        // Generate a random background color
-        const randomColor = getRandomColor();
-
         // Set the profile picture container to show and hide the image
         pfpContainer.style.display = 'flex';
         pfpContainer.innerText = firstLetter;
-        pfpContainer.style.backgroundColor = randomColor;
+        pfpContainer.style.backgroundColor = selectedColor;
 
         // Hide the default image
         avatarImage.style.display = 'none';
@@ -82,7 +110,7 @@
         downloadBtn.style.display = 'inline-block';
 
         // Store the generated SVG image data for download
-        const svgData = generateSVG(firstLetter, randomColor);
+        const svgData = generateSVG(firstLetter, selectedColor);
         window.generatedSVG = svgData;  // Store in global variable for download
       } else {
         alert('Please enter your first name.');
@@ -97,16 +125,6 @@
           <text x="50" y="50" font-size="40" text-anchor="middle" fill="white" dy=".3em">${letter}</text>
         </svg>
       `;
-    }
-
-    // Function to generate a random color
-    function getRandomColor() {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
     }
 
     // Function to download the SVG as a PNG image
@@ -140,6 +158,5 @@
       };
     }
   </script>
-
 </body>
 </html>
