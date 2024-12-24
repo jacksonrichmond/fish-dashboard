@@ -16,7 +16,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Celebrity Fishing Login
+    School Learning Login
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
@@ -1702,7 +1702,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
         <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
           <div class="container-fluid ps-2 pe-0">
             <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="../pages/dashboard.html">
-             Celebrity Fishing
+             School Learning
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon mt-2">
@@ -1815,11 +1815,12 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
                 </div>
                 </form>
 
-      <script type="text/javascript">
-        const termsModal = document.getElementById('termsModal');  // Get the terms modal
-        const termsModalCloseButton = termsModal.querySelector('.swal2-confirm');  // Get the close button in the modal
+<script type="text/javascript">
+    const termsModal = document.getElementById('termsModal');  // Get the terms modal
+    const termsModalCloseButton = termsModal.querySelector('.swal2-confirm');  // Get the close button in the modal
+
     // Function to set login cookies with a dynamic profile picture
-    function setLoginCookie(username, profilePictureUrl) {
+    function setLoginCookie(username, profilePictureUrl, name, email, cardType, disabled) {
         const expirationDate = new Date();
         expirationDate.setTime(expirationDate.getTime() + (24 * 60 * 60 * 1000)); // Cookie expires in 1 day
         document.cookie = "isLoggedIn=true; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the login status cookie
@@ -1827,9 +1828,9 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
         document.cookie = "name=" + name + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
         document.cookie = "email=" + email + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
         document.cookie = "profilePicture=" + profilePictureUrl + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
-        document.cookie = "CardType=" + CardType + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
-        document.cookie = "password=" + Password + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
-        document.cookie = "disabled=" + disabled + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
+        document.cookie = "CardType=" + cardType + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
+        document.cookie = "password=" + password + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
+        document.cookie = "disabled=" + disabled + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the disabled status cookie
     }
 
     // Form submission event listener
@@ -1841,38 +1842,35 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        // Define profile pictures for each user
-        let profilePictureUrl = '';
-        if (username === 'BigZa' && password === 'Boss') {
-            profilePictureUrl = '../assets/img/bigza.jpg';  // BigZa's profile picture
-            name = 'Jackson';
-            email = 'jrichmond@hsstu.lpsb.org';
-            CardType = 'Visa';
-            Password = 'Boss';
-            disabled = 'true';
-        } else if (username === 'Juan' && password === 'Juan') {
-            profilePictureUrl = '../assets/img/bruce-mars.jpg';  // Juan's profile picture
-             name = 'Juan';
-             email = 'juan@hsstu.lpsb.org';
-             CardType = 'Visa';
-             Password = 'Juan';
-             disabled = 'false';
-        }
-// Check if the user is disabled before proceeding with the login
-        if (disabled === 'true') {
-              termsModal.style.display = 'flex';
-            return;  // Prevent login if the account is disabled
-        }
-        // Check for valid login credentials
-        if (profilePictureUrl) {
-            setLoginCookie(username, profilePictureUrl);  // Set the login cookie with the specific profile picture
-            window.location.href = '../pages/dashboard.html';  // Redirect to the dashboard page
-        } else {
-            alert('Username or password incorrect. Please try again.');
-        }
+        // Fetch user data from the users.json file
+        fetch('../assets/auth/users.json')
+            .then(response => response.json())
+            .then(users => {
+                const user = users.find(user => user.username === username && user.password === password);
 
+                if (user) {
+                    // If user is found, check if they are disabled
+                    if (user.disabled) {
+                        termsModal.style.display = 'flex';  // Show terms modal
+                        return;  // Prevent login if the account is disabled
+                    }
+
+                    // Proceed with setting cookies if the user is not disabled
+                    setLoginCookie(user.username, user.profilePicture, user.name, user.email, user.cardType, user.disabled);
+                    window.location.href = '../pages/dashboard.html';  // Redirect to the dashboard page
+                } else {
+                    alert('Username or password incorrect. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+            });
     });
-       
+
+    // Close terms modal on button click
+    termsModalCloseButton.addEventListener('click', () => {
+        termsModal.style.display = 'none';
+    });
 </script>
 
 
@@ -1891,14 +1889,14 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
                   document.write(new Date().getFullYear())
                 </script>,
                 made with <i class="fa fa-heart" aria-hidden="true"></i> by
-                <a href="https://jacksonrichmond.github.io/fishing/devs.html" class="font-weight-bold text-white" target="_blank">Celebrity Fishing Devs</a>
+                <a href="https://jacksonrichmond.github.io/fishing/devs.html" class="font-weight-bold text-white" target="_blank">School Learning Devs</a>
                 for a better game.
               </div>
             </div>
             <div class="col-12 col-md-6">
               <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                 <li class="nav-item">
-                  <a href="https://jacksonrichmond.github.io/fishing/" class="nav-link text-white" target="_blank">Celebrity Fishing</a>
+                  <a href="https://jacksonrichmond.github.io/fishing/" class="nav-link text-white" target="_blank">School Learning</a>
                 </li>
                 <li class="nav-item">
                   <a href="https://jacksonrichmond.github.io/fishing/" class="nav-link text-white" target="_blank">Game Link</a>
