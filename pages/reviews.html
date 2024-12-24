@@ -334,42 +334,35 @@
                         const reviewHTML = `
                             <div class="ReviewContent__Container">
                                 <div class="ReviewText__Container">
-                                    <div class="es-review-content-text">${shortText}</div>
-                                    <div class="star-rating">
-                                        ${generateStars(review.rating)}
-                                    </div>
-                                    <div class="review-timestamp">${timeAgo(review.timestamp)}</div>
-                                    ${review.content.length > 62 ? 
-                                        `<div class="read-more" onclick="toggleReviewText(this, '${review.content}', event)">Read more</div>` : 
-                                        ''}
+                                    <p class="es-review-content-text">${shortText}</p>
+                                    ${review.content.length > 61 ? 
+                                        `<div class="ReviewTextControl__Control" data-review-text="${review.content}">
+                                            Read more
+                                        </div>` 
+                                        : ''}
+                                    <div class="review-timestamp">${new Date(review.timestamp).toLocaleString()}</div>
+                                    <div class="star-rating">${generateStars(review.rating)}</div>
                                 </div>
                             </div>
                         `;
                         reviewItem.innerHTML = reviewHTML;
                         reviewsContainer.appendChild(reviewItem);
+
+                        // Read more button functionality
+                        const readMoreBtn = reviewItem.querySelector('.ReviewTextControl__Control');
+                        if (readMoreBtn) {
+                            readMoreBtn.addEventListener('click', function () {
+                                const fullText = this.getAttribute('data-review-text');
+                                const reviewTextContainer = this.closest('.ReviewText__Container');
+                                const textElement = reviewTextContainer.querySelector('.es-review-content-text');
+                                const isTruncated = textElement.textContent !== fullText;
+
+                                textElement.textContent = isTruncated ? fullText : shortText;
+                                this.textContent = isTruncated ? 'Read less' : 'Read more';
+                            });
+                        }
                     });
                 };
-
-                request.onerror = function (event) {
-                    console.error('Error loading reviews:', event);
-                };
-            }
-
-            // Toggle full review content visibility and expand the box
-            function toggleReviewText(button, fullText, event) {
-                const reviewTextContainer = button.previousElementSibling;
-                const reviewContainer = button.closest('.ReviewText__Container');
-
-                // Toggle review text and expand/collapse the container height
-                if (reviewTextContainer.textContent === fullText.substring(0, 62) + '...') {
-                    reviewTextContainer.textContent = fullText;
-                    button.textContent = 'Read less';
-                    reviewContainer.style.maxHeight = `${reviewContainer.scrollHeight}px`;
-                } else {
-                    reviewTextContainer.textContent = fullText.substring(0, 62) + '...';
-                    button.textContent = 'Read more';
-                    reviewContainer.style.maxHeight = '150px'; // Default max height for short reviews
-                }
             }
 
             // Generate star rating
@@ -383,21 +376,6 @@
                     }
                 }
                 return stars;
-            }
-
-            // Time ago function
-            function timeAgo(timestamp) {
-                const now = new Date();
-                const diff = now - new Date(timestamp);
-                const seconds = Math.floor(diff / 1000);
-                const minutes = Math.floor(seconds / 60);
-                const hours = Math.floor(minutes / 60);
-                const days = Math.floor(hours / 24);
-
-                if (seconds < 60) return `${seconds} seconds ago`;
-                if (minutes < 60) return `${minutes} minutes ago`;
-                if (hours < 24) return `${hours} hours ago`;
-                return `${days} days ago`;
             }
         });
     </script>
