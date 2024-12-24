@@ -360,9 +360,41 @@
      setInterval(checkUnderConstruction, 100);
     </script>
 
-<script>
+ <script>
+    // Store the original console methods
+    const originalConsoleLog = console.log;
+    const originalConsoleWarn = console.warn;
+    const originalConsoleError = console.error;
 
-	 console.clear();
-</script>
-	
+    // Override console.log to clear console every time it's used
+    console.log = function(...args) {
+      console.clear(); // Clear console
+      originalConsoleLog.apply(console, args); // Call the original console.log with arguments
+    };
+
+    // Override console.warn to clear console every time it's used
+    console.warn = function(...args) {
+      console.clear(); // Clear console
+      originalConsoleWarn.apply(console, args); // Call the original console.warn with arguments
+    };
+
+    // Override console.error to clear console every time it's used
+    console.error = function(...args) {
+      console.clear(); // Clear console
+      originalConsoleError.apply(console, args); // Call the original console.error with arguments
+    };
+
+    // Example: Logging messages to test
+    setTimeout(() => {
+      console.log("This is a log message");
+    }, 1000);
+
+    setTimeout(() => {
+      console.warn("This is a warning message");
+    }, 2000);
+
+    setTimeout(() => {
+      console.error("This is an error message");
+    }, 3000);
+  </script>
 </html>
