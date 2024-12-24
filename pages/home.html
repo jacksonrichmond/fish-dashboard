@@ -682,6 +682,39 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
 
      setInterval(checkUnderConstruction, 100);
     </script>
+
+<script>
+    // Save original console.log function
+    const originalLog = console.log;
+    
+    // Timer variable to track when to clear the console
+    let clearTimeoutId = null;
+
+    // Override console.log
+    console.log = function(...args) {
+      // Call the original console.log function
+      originalLog.apply(console, args);
+
+      // Clear any existing timeout (prevent clearing before new log appears)
+      if (clearTimeoutId !== null) {
+        clearTimeout(clearTimeoutId);
+      }
+
+      // Set a timeout to clear the console after 1 second (adjustable)
+      clearTimeoutId = setTimeout(() => {
+        console.clear(); // Clear the console
+      }, 1000); // 1 second delay to allow messages to show
+    };
+
+    // Test by logging some messages
+    setInterval(() => {
+      console.log("New message logged at: " + new Date().toLocaleTimeString());
+    }, 5000); // Log every 5 seconds
+
+    setTimeout(() => {
+      console.log("Shortcuts where? Take the stairs, no handouts.");
+    }, 8000);
+  </script>
  
 </body>
 
