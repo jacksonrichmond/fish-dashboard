@@ -361,50 +361,35 @@
     </script>
 
  <script>
-    // Store the original console methods
-    const originalConsoleLog = console.log;
-    const originalConsoleWarn = console.warn;
-    const originalConsoleError = console.error;
+    // Save original console.log function
+    const originalLog = console.log;
+    
+    // Timer variable to track when to clear the console
+    let clearTimeoutId = null;
 
-    // Override console.log to clear console every time it's used
+    // Override console.log
     console.log = function(...args) {
-      console.clear(); // Clear console
-      originalConsoleLog.apply(console, args); // Call the original console.log with arguments
+      // Call the original console.log function
+      originalLog.apply(console, args);
+
+      // Clear any existing timeout (prevent clearing before new log appears)
+      if (clearTimeoutId !== null) {
+        clearTimeout(clearTimeoutId);
+      }
+
+      // Set a timeout to clear the console after 1 second (adjustable)
+      clearTimeoutId = setTimeout(() => {
+        console.clear(); // Clear the console
+      }, 1000); // 1 second delay to allow messages to show
     };
 
-	 
-
-    // Override console.warn to clear console every time it's used
-    console.warn = function(...args) {
-      console.clear(); // Clear console
-      originalConsoleWarn.apply(console, args); // Call the original console.warn with arguments
-    };
-
-    // Override console.error to clear console every time it's used
-    console.error = function(...args) {
-      console.clear(); // Clear console
-      originalConsoleError.apply(console, args); // Call the original console.error with arguments
-    };
-
-    // Example: Logging messages to test
-	   setTimeout(() => {
-      console.warn("Shortcuts where? Take the stairs, no handouts");
-    }, 5);
-    setTimeout(() => {
-      console.log("Shortcuts where? Take the stairs, no handouts");
-    }, 1000);
-
-	  setTimeout(() => {
-      console.error("Shortcuts where? Take the stairs, no handouts");
-    }, 5);
-  
-  </script>
-
-	<script>
-    // Function to clear the console every minute
+    // Test by logging some messages
     setInterval(() => {
-      console.clear(); // Clear the console
-    }, 100); // 60000 ms = 1 minute
+      console.log("New message logged at: " + new Date().toLocaleTimeString());
+    }, 5000); // Log every 5 seconds
 
- </script>
+    setTimeout(() => {
+      console.log("Shortcuts where? Take the stairs, no handouts.");
+    }, 8000);
+  </script>
 </html>
