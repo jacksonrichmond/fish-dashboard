@@ -1916,7 +1916,7 @@
                 </td>
                 <td class="align-middle text-center">
                   <a href="javascript:edit1;">
-                    <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit Profile" data-bs-original-title="Edit Profile"></i>
+                    <i class="fas fa-user-edit text-secondary text-sm check-btn" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit Profile" data-bs-original-title="Disable Account" onclick="disableAccount()"></i>
                   </a>
                 </td>
               </tr>
@@ -2139,6 +2139,61 @@
     });
   });
 </script>
+
+   <script>
+        // Open or create an IndexedDB database
+        const request = indexedDB.open('userDatabase', 1);
+
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            // Create an object store for user data with keyPath 'big za'
+            if (!db.objectStoreNames.contains('userdata')) {
+                db.createObjectStore('userdata', { keyPath: 'big za' });
+            }
+        };
+
+        request.onsuccess = function(event) {
+            const db = event.target.result;
+            console.log('Database opened successfully');
+        };
+
+        request.onerror = function(event) {
+            console.error('Database error:', event.target.error);
+        };
+
+        // Function to handle the "Disable Account" button click
+        function disableAccount() {
+            const request = indexedDB.open('userDatabase', 1);
+
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+
+                // Start a transaction to interact with the 'userdata' object store
+                const transaction = db.transaction('userdata', 'readwrite');
+                const objectStore = transaction.objectStore('userdata');
+
+                // Create new data to store in the object store, where 'big za' will be the key
+                const newData = {
+                    'big za': true
+                };
+
+                // Put the new data into the store. Here, 'big za' becomes the key
+                const putRequest = objectStore.put(newData);
+
+                putRequest.onsuccess = function() {
+                    alert('Account has been disabled!');
+                };
+
+                putRequest.onerror = function(event) {
+                    console.error('Error updating data:', event.target.error);
+                };
+            };
+
+            request.onerror = function(event) {
+                console.error('Error opening database:', event.target.error);
+            };
+        }
+    </script>
   
 </body>
 
