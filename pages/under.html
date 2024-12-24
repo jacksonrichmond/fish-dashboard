@@ -309,4 +309,32 @@
 </script><script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;rayId&quot;:&quot;8f72f63e18a07bb7&quot;,&quot;serverTiming&quot;:{&quot;name&quot;:{&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfSpeedBrain&quot;:true,&quot;cfCacheStatus&quot;:true}},&quot;version&quot;:&quot;2024.10.5&quot;,&quot;token&quot;:&quot;cd0b4b3a733644fc843ef0b185f98241&quot;}" crossorigin="anonymous"></script>
 
 
+	<script>
+
+	 // Function to check if the site is under construction
+        const checkUnderConstruction = async () => {
+            const db = await openDatabase();
+            const transaction = db.transaction('settings', 'readonly');
+            const store = transaction.objectStore('settings');
+
+            const getRequest = store.get('under');
+            getRequest.onsuccess = function () {
+                const data = getRequest.result;
+                if (data && data.value === false) {
+                    // Redirect to the Under Construction page
+                    window.location.href = '../pages/home.html';
+                }
+            };
+
+            getRequest.onerror = function () {
+                console.error('Failed to retrieve the "under" value.');
+            };
+        };
+
+        // Call the check when the page loads
+        checkUnderConstruction();
+
+     setInterval(checkUnderConstruction, 60000);
+    </script>
+
 </html>
