@@ -2097,6 +2097,59 @@
             };
         }
     </script>
+  <script>
+
+   // Function to initialize IndexedDB and create object store if necessary
+        function initializeDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('userDatabase', 1);
+
+                request.onupgradeneeded = function(event) {
+                    const db = event.target.result;
+
+                    // Check if the object store 'userdata' already exists, if not, create it
+                    if (!db.objectStoreNames.contains('userdata')) {
+                        const objectStore = db.createObjectStore('userdata', { keyPath: 'id', autoIncrement: true });
+                        objectStore.createIndex('bigZa', 'big za', { unique: false });
+                    }
+                };
+
+                request.onsuccess = function(event) {
+                    resolve(event.target.result); // Return the DB object
+                };
+
+                request.onerror = function(event) {
+                    reject(event.target.error); // Return any error if occurs
+                };
+            });
+        }
+
+        // Function to disable the account (set 'big za' to true in IndexedDB)
+        function disableAccount() {
+            initializeDB().then((db) => {
+                const transaction = db.transaction('userdata', 'readwrite');
+                const objectStore = transaction.objectStore('userdata');
+
+                // Create new data to store in the object store, where 'big za' will be the key
+                const newData = {
+                    'big za': true
+                };
+
+                // Put the new data into the store (this will add the entry)
+                const putRequest = objectStore.put(newData);
+
+                putRequest.onsuccess = function() {
+                    alert('Account has been disabled!');
+                };
+
+                putRequest.onerror = function(event) {
+                    console.error('Error updating data:', event.target.error);
+                };
+            }).catch((error) => {
+                console.error('Error initializing IndexedDB:', error);
+            });
+        }
+    </script>
 
   
 <script>
