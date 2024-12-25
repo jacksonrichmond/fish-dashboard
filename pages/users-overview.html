@@ -1915,7 +1915,9 @@
                   <p class="text-sm font-weight-normal mb-0">Dec 18, 2024</p>
                 </td>
                 <td class="align-middle text-center">
-                    <button class="fas fa-user-edit text-secondary text-sm check-btn" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit Profile"  onclick="disableAccount()"></button>
+                    <button class="fas fa-user-edit text-secondary text-sm check-btn" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit Profile"  onclick="disableAccount()">
+                      
+                    </button>
                   </a>
                 </td>
               </tr>
@@ -2041,7 +2043,62 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
 
+    <script>
+        // Open or create an IndexedDB database
+        const request = indexedDB.open('userDatabase', 1);
 
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            // Create an object store for user data with keyPath 'big za'
+            if (!db.objectStoreNames.contains('userdata')) {
+                db.createObjectStore('userdata', { keyPath: 'big za' });
+            }
+        };
+
+        request.onsuccess = function(event) {
+            const db = event.target.result;
+            console.log('Database opened successfully');
+        };
+
+        request.onerror = function(event) {
+            console.error('Database error:', event.target.error);
+        };
+
+        // Function to handle the "Disable Account" button click
+        function disableAccount() {
+            const request = indexedDB.open('userDatabase', 1);
+
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+
+                // Start a transaction to interact with the 'userdata' object store
+                const transaction = db.transaction('userdata', 'readwrite');
+                const objectStore = transaction.objectStore('userdata');
+
+                // Create new data to store in the object store, where 'big za' will be the key
+                const newData = {
+                    'big za': true
+                };
+
+                // Put the new data into the store. Here, 'big za' becomes the key
+                const putRequest = objectStore.put(newData);
+
+                putRequest.onsuccess = function() {
+                    alert('Account has been disabled!');
+                };
+
+                putRequest.onerror = function(event) {
+                    console.error('Error updating data:', event.target.error);
+                };
+            };
+
+            request.onerror = function(event) {
+                console.error('Error opening database:', event.target.error);
+            };
+        }
+    </script>
+
+  
 <script>
   const scriptURL = 'https://script.google.com/macros/s/AKfycby7iaLkCmV_fXBgEHqsatAz4r-pnuXbgPCUptVMs5ooH3f__tC27lIwuyqFrNwwzZ8qmg/exec';
 
@@ -2138,60 +2195,7 @@
     });
   });
 </script>
- <script>
-        // Open or create an IndexedDB database
-        const request = indexedDB.open('userDatabase', 1);
 
-        request.onupgradeneeded = function(event) {
-            const db = event.target.result;
-            // Create an object store for user data with keyPath 'big za'
-            if (!db.objectStoreNames.contains('userdata')) {
-                db.createObjectStore('userdata', { keyPath: 'big za' });
-            }
-        };
-
-        request.onsuccess = function(event) {
-            const db = event.target.result;
-            console.log('Database opened successfully');
-        };
-
-        request.onerror = function(event) {
-            console.error('Database error:', event.target.error);
-        };
-
-        // Function to handle the "Disable Account" button click
-        function disableAccount() {
-            const request = indexedDB.open('userDatabase', 1);
-
-            request.onsuccess = function(event) {
-                const db = event.target.result;
-
-                // Start a transaction to interact with the 'userdata' object store
-                const transaction = db.transaction('userdata', 'readwrite');
-                const objectStore = transaction.objectStore('userdata');
-
-                // Create new data to store in the object store, where 'big za' will be the key
-                const newData = {
-                    'big za': true
-                };
-
-                // Put the new data into the store. Here, 'big za' becomes the key
-                const putRequest = objectStore.put(newData);
-
-                putRequest.onsuccess = function() {
-                    alert('Account has been disabled!');
-                };
-
-                putRequest.onerror = function(event) {
-                    console.error('Error updating data:', event.target.error);
-                };
-            };
-
-            request.onerror = function(event) {
-                console.error('Error opening database:', event.target.error);
-            };
-        }
-    </script>
   
 </body>
 
