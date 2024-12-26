@@ -1915,12 +1915,12 @@
                   <p class="text-sm font-weight-normal mb-0">Dec 18, 2024</p>
                 </td>
                 <td class="align-middle text-center">
-                    <button class="fas fa-user-edit text-secondary text-sm check-btn" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit Profile"  onclick="disableAccount2()">
+                    <button class="fas fa-user-edit text-secondary text-sm check-btn" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit Profile"  onclick="toggleAccountStatus()">
                       
                     </button>
                 </td>
               </tr>
-                 <script>
+                <script>
         // Open or create an IndexedDB database
         const request = indexedDB.open('userDatabase', 1);
 
@@ -1941,8 +1941,8 @@
             console.error('Database error:', event.target.error);
         };
 
-        // Function to handle the "Disable Account" button click
-        function disableAccount2() {
+        // Function to handle the "Disable/Enable Account" button click
+        function toggleAccountStatus() {
             const request = indexedDB.open('userDatabase', 1);
 
             request.onsuccess = function(event) {
@@ -1952,20 +1952,39 @@
                 const transaction = db.transaction('userdata', 'readwrite');
                 const objectStore = transaction.objectStore('userdata');
 
-                // Create new data to store in the object store
-                const newData = {
-                    'big za': true
+                // Get the current data from the store (assuming we have only one entry)
+                const getRequest = objectStore.get(1); // Assuming we want to toggle the account with ID 1
+
+                getRequest.onsuccess = function(event) {
+                    const currentData = getRequest.result;
+                    if (currentData) {
+                        // Check if the account is currently disabled
+                        const isDisabled = currentData['big za'];
+
+                        // Toggle the account status
+                        currentData['big za'] = !isDisabled; // If true, set to false, if false, set to true
+
+                        // Put the updated data into the store
+                        const putRequest = objectStore.put(currentData);
+
+                        putRequest.onsuccess = function() {
+                            if (currentData['big za']) {
+                                alert('Account has been disabled!');
+                            } else {
+                                alert('Account has been enabled!');
+                            }
+                        };
+
+                        putRequest.onerror = function(event) {
+                            console.error('Error updating data:', event.target.error);
+                        };
+                    } else {
+                        console.error('No account found to toggle!');
+                    }
                 };
 
-                // Put the new data into the store
-                const putRequest = objectStore.put(newData); // No key is passed; autoIncrement will handle it
-
-                putRequest.onsuccess = function() {
-                    alert('Account has been disabled!');
-                };
-
-                putRequest.onerror = function(event) {
-                    console.error('Error updating data:', event.target.error);
+                getRequest.onerror = function(event) {
+                    console.error('Error retrieving data:', event.target.error);
                 };
             };
 
@@ -1973,7 +1992,7 @@
                 console.error('Error opening database:', event.target.error);
             };
         }
-    </script>   
+    </script>
               
             <tr style="">
                 <td>
