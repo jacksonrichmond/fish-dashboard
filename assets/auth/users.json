@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "username": "BigZa",
     "password": "Boss",
     "name": "Jackson",
@@ -9,6 +10,7 @@
     "profilePicture": "../assets/img/bigza.jpg"
   },
   {
+    "id": 2,
     "username": "Juan",
     "password": "Juan",
     "name": "Juan",
