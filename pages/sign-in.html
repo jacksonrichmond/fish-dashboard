@@ -1824,42 +1824,12 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
         expirationDate.setTime(expirationDate.getTime() + (24 * 60 * 60 * 1000)); // Cookie expires in 1 day
         document.cookie = "isLoggedIn=true; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the login status cookie
         document.cookie = "username=" + username + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
-        document.cookie = "name=" + name + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the name cookie
-        document.cookie = "email=" + email + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the email cookie
+        document.cookie = "name=" + name + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
+        document.cookie = "email=" + email + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the username cookie
         document.cookie = "profilePicture=" + profilePictureUrl + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
-        document.cookie = "CardType=" + cardType + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the card type cookie
+        document.cookie = "CardType=" + cardType + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
+        document.cookie = "password=" + password + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the profile picture URL cookie
         document.cookie = "disabled=" + disabled + "; expires=" + expirationDate.toUTCString() + "; path=/";  // Set the disabled status cookie
-    }
-
-    // Function to check if the account is disabled using IndexedDB by user id
-    function checkAccountStatus(userId) {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open('userDatabase', 1);
-
-            request.onsuccess = function(event) {
-                const db = event.target.result;
-                const transaction = db.transaction('userdata', 'readonly');
-                const objectStore = transaction.objectStore('userdata');
-                const getRequest = objectStore.get(userId);
-
-                getRequest.onsuccess = function(event) {
-                    const userData = getRequest.result;
-                    if (userData && userData.disabled) {
-                        resolve(true);  // Account is disabled
-                    } else {
-                        resolve(false);  // Account is not disabled
-                    }
-                };
-
-                getRequest.onerror = function(event) {
-                    reject('Error checking account status');
-                };
-            };
-
-            request.onerror = function(event) {
-                reject('Error opening IndexedDB');
-            };
-        });
     }
 
     // Form submission event listener
@@ -1872,26 +1842,21 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
         const password = document.getElementById('password').value;
 
         // Fetch user data from the users.json file
-        fetch('../assets/auth/users.json') // Adjust path based on your file structure
+        fetch('../assets/auth/users.json')
             .then(response => response.json())
             .then(users => {
                 const user = users.find(user => user.username === username && user.password === password);
 
                 if (user) {
-                    // If user is found, check if their account is disabled in IndexedDB using the user's id
-                    checkAccountStatus(user.id).then(isDisabled => {
-                        if (isDisabled) {
-                            termsModal.style.display = 'flex';  // Show terms modal
-                            return;  // Prevent login if the account is disabled
-                        }
+                    // If user is found, check if they are disabled
+                    if (user.disabled) {
+                        termsModal.style.display = 'flex';  // Show terms modal
+                        return;  // Prevent login if the account is disabled
+                    }
 
-                        // Proceed with setting cookies if the user is not disabled
-                        setLoginCookie(user.username, user.profilePicture, user.name, user.email, user.cardType, user.disabled);
-                        window.location.href = '../pages/dashboard.html';  // Redirect to the dashboard page
-                    }).catch(error => {
-                        console.error(error);
-                        alert('There was an issue checking your account status.');
-                    });
+                    // Proceed with setting cookies if the user is not disabled
+                    setLoginCookie(user.username, user.profilePicture, user.name, user.email, user.cardType, user.disabled);
+                    window.location.href = '../pages/dashboard.html';  // Redirect to the dashboard page
                 } else {
                     alert('Username or password incorrect. Please try again.');
                 }
