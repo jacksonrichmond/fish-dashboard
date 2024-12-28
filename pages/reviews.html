@@ -38,9 +38,11 @@
     </div>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
-    <script>
+    <script type="module">
+        // Importing Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
         // Your Firebase config object from Firebase console
         const firebaseConfig = {
             apiKey: "AIzaSyDvZ9BtYvmUEJfMg-u_MszLF9PoJnuCyEM",
@@ -52,8 +54,8 @@
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
         document.addEventListener('DOMContentLoaded', function () {
 
@@ -96,51 +98,52 @@
             });
 
             // Save review to Firestore
-            function saveReview(title, content, rating) {
+            async function saveReview(title, content, rating) {
                 const timestamp = new Date().toISOString();
                 const review = { title, content, rating: parseInt(rating), timestamp };
 
-                // Add review to Firestore collection
-                db.collection('reviews').add(review).then(() => {
+                try {
+                    // Add review to Firestore collection
+                    await addDoc(collection(db, 'reviews'), review);
                     loadReviews(); // Reload reviews after saving
-                }).catch(error => {
+                } catch (error) {
                     console.error('Error adding review: ', error);
-                });
+                }
             }
 
             // Load reviews from Firestore
-            function loadReviews() {
+            async function loadReviews() {
                 const reviewsContainer = document.getElementById('reviewsContainer');
                 reviewsContainer.innerHTML = ''; // Clear previous reviews
 
-                db.collection('reviews').orderBy('timestamp', 'desc').get()
-                    .then((querySnapshot) => {
-                        querySnapshot.forEach((doc) => {
-                            const review = doc.data();
-                            const reviewItem = document.createElement('div');
-                            reviewItem.classList.add('review-item');
+                try {
+                    const q = query(collection(db, 'reviews'), orderBy('timestamp', 'desc'));
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.forEach((doc) => {
+                        const review = doc.data();
+                        const reviewItem = document.createElement('div');
+                        reviewItem.classList.add('review-item');
 
-                            const shortText = review.content.length > 62 ? review.content.substring(0, 62) + '...' : review.content;
+                        const shortText = review.content.length > 62 ? review.content.substring(0, 62) + '...' : review.content;
 
-                            const reviewHTML = `
-                                <div class="ReviewContent__Container">
-                                    <div class="ReviewText__Container">
-                                        <div class="star-rating">${generateStars(review.rating)}</div>
-                                        <p class="es-review-content-text">${shortText}</p>
-                                        <div class="review-timestamp">${timeAgo(review.timestamp)}</div>
-                                        ${review.content.length > 62 ? 
-                                            `<div class="read-more" data-full-text="${review.content}" onclick="toggleReviewText(this)">Read more</div>` : 
-                                            ''}
-                                    </div>
+                        const reviewHTML = `
+                            <div class="ReviewContent__Container">
+                                <div class="ReviewText__Container">
+                                    <div class="star-rating">${generateStars(review.rating)}</div>
+                                    <p class="es-review-content-text">${shortText}</p>
+                                    <div class="review-timestamp">${timeAgo(review.timestamp)}</div>
+                                    ${review.content.length > 62 ? 
+                                        `<div class="read-more" data-full-text="${review.content}" onclick="toggleReviewText(this)">Read more</div>` : 
+                                        ''}
                                 </div>
-                            `;
-                            reviewItem.innerHTML = reviewHTML;
-                            reviewsContainer.appendChild(reviewItem);
-                        });
-                    })
-                    .catch((error) => {
-                        console.error('Error loading reviews: ', error);
+                            </div>
+                        `;
+                        reviewItem.innerHTML = reviewHTML;
+                        reviewsContainer.appendChild(reviewItem);
                     });
+                } catch (error) {
+                    console.error('Error loading reviews: ', error);
+                }
             }
 
             // Generate star rating
