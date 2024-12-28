@@ -220,7 +220,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
             const querySnapshot = await getDocs(reviewsCollection); // Get all reviews
 
             if (querySnapshot.empty) {
-                averageRatingElement.textContent = 'Average Rating: 0/5'; // No reviews
+                averageRatingElement.textContent = '0/5'; // No reviews
                 return;
             }
 
@@ -233,7 +233,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
             });
 
             const averageRating = (totalRating / totalReviews).toFixed(2); // Calculate the average and round to 2 decimal places
-            averageRatingElement.textContent = `Average Rating: ${averageRating}/5`; // Display the average rating
+            averageRatingElement.textContent = ` ${averageRating}/5`; // Display the average rating
         }
 
         // Load the average rating on page load
