@@ -1148,6 +1148,28 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
         // Call updateButtonText when the page loads to set the button text based on the current state
         window.onload = updateButtonText;
     </script>
+
+ <script>
+  window.onload = function() {
+    // Check if the 'isLoggedIn' cookie exists and is set to 'true'
+    if (!getCookie('isLoggedIn') || getCookie('isLoggedIn') !== 'true') {
+        window.location.href = '../pages/sign-in.html';  // Redirect to login page if not logged in
+    }
+  };
+
+  // Function to get the value of a specific cookie by name
+  function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i].trim();
+      if (c.indexOf(nameEQ) === 0) {
+        return c.substring(nameEQ.length, c.length);  // Return the cookie value
+      }
+    }
+    return null;  // Return null if the cookie is not found
+  }
+</script>
 </body>
 
 </html>
