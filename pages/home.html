@@ -183,7 +183,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
               </div>
               <div class="col-md-6 col-lg-3">
                 <div class="p-3 text-center">
-                <h1 id="fiveStarCount" class="text-gradient text-primary">5/5</h1>
+                <h1 id="averageRating" class="text-gradient text-primary">5/5</h1>
                   <h5 id="reviewCount" class="mt-3"></h5>
                 </div>
               </div>
@@ -192,6 +192,54 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
         </div>
       </div>
     </section>
+   <script type="module">
+    // Importing Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Your Firebase config object from Firebase console
+    const firebaseConfig = {
+        apiKey: "AIzaSyDvZ9BtYvmUEJfMg-u_MszLF9PoJnuCyEM",
+        authDomain: "reviews-d2933.firebaseapp.com",
+        projectId: "reviews-d2933",
+        storageBucket: "reviews-d2933.firebasestorage.app",
+        messagingSenderId: "82461731621",
+        appId: "1:82461731621:web:77b9001e1d1ac47dd708cc"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const averageRatingElement = document.getElementById('averageRating'); // Element to display the average rating
+
+        // Function to calculate and display the average rating
+        async function loadAverageRating() {
+            const reviewsCollection = collection(db, 'reviews'); // Accessing the 'reviews' collection
+            const querySnapshot = await getDocs(reviewsCollection); // Get all reviews
+
+            if (querySnapshot.empty) {
+                averageRatingElement.textContent = 'Average Rating: 0/5'; // No reviews
+                return;
+            }
+
+            let totalRating = 0;
+            let totalReviews = querySnapshot.size;
+
+            querySnapshot.forEach(doc => {
+                const review = doc.data();
+                totalRating += review.rating; // Add each review's rating to the total
+            });
+
+            const averageRating = (totalRating / totalReviews).toFixed(2); // Calculate the average and round to 2 decimal places
+            averageRatingElement.textContent = `Average Rating: ${averageRating}/5`; // Display the average rating
+        }
+
+        // Load the average rating on page load
+        loadAverageRating();
+    });
+</script>
    <script type="module">
     // Importing Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
