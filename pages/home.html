@@ -287,6 +287,9 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
         // Load counts initially
         loadReviewCount();
         loadFiveStarCount();
+
+       setInterval(loadReviewCount, 5);
+       setInterval(loadFiveStarCount, 5);
     });
 </script>
 
