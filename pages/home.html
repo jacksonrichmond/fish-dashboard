@@ -220,7 +220,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
             const querySnapshot = await getDocs(reviewsCollection); // Get all reviews in the collection
 
             const reviewCount = querySnapshot.size; // Count the number of documents (reviews)
-            reviewCountElement.textContent = `Total Reviews: ${reviewCount}`; // Display the count on the page
+            reviewCountElement.textContent = `Reviews ${reviewCount}`; // Display the count on the page
         }
 
         // Load review count initially
