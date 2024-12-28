@@ -232,7 +232,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
                 totalRating += review.rating; // Add each review's rating to the total
             });
 
-            const averageRating = (totalRating / totalReviews).toFixed(2); // Calculate the average and round to 2 decimal places
+            const averageRating = (totalRating / totalReviews).toFixed(1); // Calculate the average and round to 2 decimal places
             averageRatingElement.textContent = ` ${averageRating}/5`; // Display the average rating
         }
 
