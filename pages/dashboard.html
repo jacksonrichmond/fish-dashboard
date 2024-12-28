@@ -892,46 +892,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
 
 
- <script>
-    // Initialize counters in localStorage
-    if (!localStorage.getItem("totalVisits")) {
-      localStorage.setItem("totalVisits", 0);
-    }
-    if (!localStorage.getItem("uniqueVisitors")) {
-      localStorage.setItem("uniqueVisitors", JSON.stringify([])); // Store unique visitor IDs in an array
-    }
-
-    // Function to update visit count
-    function updateVisitorStats() {
-      let totalVisits = parseInt(localStorage.getItem("totalVisits"));
-      let uniqueVisitors = JSON.parse(localStorage.getItem("uniqueVisitors"));
-
-      // Increment total visits count
-      totalVisits++;
-      localStorage.setItem("totalVisits", totalVisits);
-
-      // Generate or retrieve unique visitor ID
-      let visitorID = localStorage.getItem("visitorID");
-      if (!visitorID) {
-        // If it's the first visit, create a unique ID (using a timestamp or random string)
-        visitorID = "visitor-" + new Date().getTime() + Math.floor(Math.random() * 1000);
-        localStorage.setItem("visitorID", visitorID);
-
-        // Add this new visitor ID to the unique visitors list
-        uniqueVisitors.push(visitorID);
-        localStorage.setItem("uniqueVisitors", JSON.stringify(uniqueVisitors));
-      }
-
-      // Update the displayed stats
-      document.getElementById("total-visits").textContent = totalVisits;
-      document.getElementById("unique-visitors").textContent = uniqueVisitors.length;
-    }
-
-    // Run the updateVisitorStats function on page load
-    window.onload = function() {
-      updateVisitorStats();
-    };
-  </script>
+ 
  <script>
     // Function to get the current day, day number, month, and year
     function getCurrentDateInfo() {
