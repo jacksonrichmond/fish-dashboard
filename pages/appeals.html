@@ -103,7 +103,7 @@
       // Send the form data to the Google Apps Script URL using fetch
       fetch(scriptURL, { method: 'POST', body: formData })
         .then(response => alert("Appeal Submitted Successfully! Your appeal will be reviewed shortly."))
-        .then(() => {  window.location.href = '../pages/home.html'; })  // Reload the page after submission
+        .then(() => {  window.location.href = '../pages/home.html'(); })  // Reload the page after submission
         .catch(error => {
           console.error('Error!', error.message);
           document.getElementById("errorMessage").textContent = "There was an error submitting your appeal.";
