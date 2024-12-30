@@ -18,5 +18,15 @@
     "cardType": "Visa",
     "disabled": false,
     "profilePicture": "../assets/img/bruce-mars.jpg"
+  },
+ {
+    "id": 3,
+    "username": "admin",
+    "password": "example",
+    "name": "admin",
+    "email": "admin@admin.org",
+    "cardType": "Visa",
+    "disabled": false,
+    "profilePicture": "../assets/img/admin.jpg"
   }
 ]
