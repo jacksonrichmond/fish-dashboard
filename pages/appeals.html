@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ban Appeal Form</title>
+    <title>Account Appeal Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,28 +63,29 @@
 <body>
 
 <div class="container">
-    <h1>Account Appeal Form</h1>
-    <form id="appealForm" method="post" action="https://script.google.com/macros/s/AKfycbz2QGr1rWhIr13PqUnO3cFyY2LSW6oF2ds7VarFXR3vpk9YUDrSl6UrFBGxe5LFBIVK/exec" name="contact-form" role="form" class="form-group">
-        <div class="form-group">
+    <h1>Ban Appeal Form</h1>
+    <form id="appealForm">
+        <div  method="post" action="" name="contact-form" role="form" class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
         </div>
         <div class="form-group">
-            <label for="appealReason">Why I Should Be Unbanned: (Explain why you believe the ban should be lifted.)</label>
+            <label for="appealReason">Why I Should Be un disabled: Answer (Explain why you believe the ban should be lifted.)</label>
             <textarea id="appealReason" name="appealReason" required></textarea>
         </div>
+  
         <div class="form-group">
             <button type="submit">Submit Appeal</button>
         </div>
         <div class="error" id="errorMessage"></div>
     </form>
     
-    <p><br>Please ensure you have <span style="color:red;"><strong>thoroughly read</strong></span> and understood <span style="color:red;"><strong>the ban appeal rules</strong></span> before submitting your appeal. It is important to follow these guidelines closely to ensure your appeal is considered. Additionally, <strong><span style="color:red;">refrain from sending direct messages or harassing staff</span></strong> members about the status or outcome of your appeal. <strong><span style="color:green;">Patience and adherence</span></strong> to the rules are crucial in this process.</p>
+    <p><br>Please ensure you have<span data-i-color="red"> </span><strong><span data-i-color="red">thoroughly read</span></strong><span data-i-color="red"> </span>and understood<span data-i-color="red"> </span><strong><span data-i-color="red">the ban appeal rules</span></strong> before submitting your appeal. It is important to follow these guidelines closely to ensure your appeal is considered. Additionally, <strong><span data-i-color="red">refrain from sending direct messages or harassing staff </span></strong>members about the status or outcome of your appeal. <strong><span data-i-color="green">Patience and adherence</span></strong> to the rules are crucial in this process.</p>
 </div>
 
 <script>
     // Google Apps Script URL for form submission
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbz2QGr1rWhIr13PqUnO3cFyY2LSW6oF2ds7VarFXR3vpk9YUDrSl6UrFBGxe5LFBIVK/exec';
+    const scriptURL = '';
 
     const form = document.getElementById('appealForm');  // Get the ban appeal form
     
@@ -101,18 +102,14 @@
 
       // Send the form data to the Google Apps Script URL using fetch
       fetch(scriptURL, { method: 'POST', body: formData })
-        .then(response => response.json())
-        .then(() => {
-          alert("Appeal Submitted Successfully! Your appeal will be reviewed shortly.");
-          form.reset(); // Reset the form after successful submission
-        })
+        .then(response => alert("Appeal Submitted Successfully! Your appeal will be reviewed shortly."))
+        .then(() => {  window.location.href = '../pages/home.html'; })  // Reload the page after submission
         .catch(error => {
           console.error('Error!', error.message);
           document.getElementById("errorMessage").textContent = "There was an error submitting your appeal.";
         });
     });
 </script>
-
 
 
 </body>
