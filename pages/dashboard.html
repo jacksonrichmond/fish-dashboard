@@ -1061,7 +1061,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
  <script>
   window.onload = function() {
     // Check if the 'isLoggedIn' cookie exists and is set to 'true'
-    if (!getCookie('isLoggedIn') || getCookie('isLoggedIn') !== 'true') {
+   if (!getCookie('isLoggedIn')) {
         window.location.href = '../pages/sign-in.html';  // Redirect to login page if not logged in
     }
   };
@@ -1078,7 +1078,9 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
     }
     return null;  // Return null if the cookie is not found
   }
-</script>
+  </script>
+
+ 
 
   <script>
         // Open IndexedDB and create the database if it doesn't exist
