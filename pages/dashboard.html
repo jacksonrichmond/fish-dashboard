@@ -114,6 +114,27 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
     function deleteCookie(name) {
         document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";  // Set expiration to delete cookie
     }
+</script>
+       <script>
+
+       // Function to get a specific cookie by name
+function getCookie5(name) {
+    let cookieArr = document.cookie.split(';');
+    for (let i = 0; i < cookieArr.length; i++) {
+        let cookie = cookieArr[i].trim();
+        if (cookie.startsWith(name + '=')) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return null;
+}
+
+// Check if the 'isLoggedIn' cookie is found
+if (!getCookie5('isLoggedIn')) {
+    // Redirect to the sign-in page if 'isLoggedIn' cookie is not found
+    window.location.href = '../pages/sign-in.html'; // Replace with the correct sign-in URL if needed
+}
+ </script>
 
  
       </ul>
