@@ -665,7 +665,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
             const querySnapshot = await getDocs(reviewsCollection);
 
             const reviewCount = querySnapshot.size;
-            reviewCountElement.textContent = `Reviews: ${reviewCount}`;
+            reviewCountElement.textContent = `${reviewCount}`;
         }
 
         // Load the 5-star review count
