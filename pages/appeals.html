@@ -65,7 +65,7 @@
 <div class="container">
     <h1>Ban Appeal Form</h1>
     <form id="appealForm">
-        <div class="form-group">
+        <div  method="post" action="" name="contact-form" role="form" class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
         </div>
@@ -84,41 +84,33 @@
 </div>
 
 <script>
-    document.getElementById("appealForm").addEventListener("submit", function(event) {
-        event.preventDefault();
+    // Google Apps Script URL for form submission
+    const scriptURL = '';
 
-        const username = document.getElementById("username").value;
-        const appealReason = document.getElementById("appealReason").value;
-        const evidenceFile = document.getElementById("evidence").files[0];
+    const form = document.getElementById('appealForm');  // Get the ban appeal form
+    
+    form.addEventListener('submit', e => {
+      e.preventDefault();  // Prevent default form submission
 
-        // Check if fields are filled out
-        if (!username || !appealReason) {
-            document.getElementById("errorMessage").textContent = "Please fill out all required fields.";
-            return;
-        }
+      // Prepare the form data for submission
+      const formData = new FormData(form);
 
-        const formData = new FormData();
-        formData.append("username", username);
-        formData.append("appealReason", appealReason);
-        if (evidenceFile) {
-            formData.append("evidence", evidenceFile);
-        }
+      // Log FormData to check if data is collected correctly (optional for debugging)
+      for (const pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
 
-        // Send data to the server
-        fetch("/submit-appeal", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert('Your appeal has been submitted successfully.');
-        })
+      // Send the form data to the Google Apps Script URL using fetch
+      fetch(scriptURL, { method: 'POST', body: formData })
+        .then(response => alert("Appeal Submitted Successfully! Your appeal will be reviewed shortly."))
+        .then(() => { window.location.reload(); })  // Reload the page after submission
         .catch(error => {
-            console.error('Error submitting appeal:', error);
-            document.getElementById("errorMessage").textContent = "There was an error submitting your appeal.";
+          console.error('Error!', error.message);
+          document.getElementById("errorMessage").textContent = "There was an error submitting your appeal.";
         });
     });
 </script>
+
 
 </body>
 </html>
