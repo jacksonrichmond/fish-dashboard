@@ -314,7 +314,7 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
               <div class="d-flex justify-content-between">
                 <div>
                   <p class="text-sm mb-0 text-capitalize">Site Reviews</p>
-                  <h4 class="mb-0">1</h4>
+                  <h4 id="reviewCount" class="mb-0"></h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                   <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -634,6 +634,59 @@ Mate  just go ahead and close this ting  Brudua your not gonna get any ting from
       </div>
     </div>
   </div>
+
+ </script>
+   <script type="module">
+    // Importing Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Your Firebase config object from Firebase console
+    const firebaseConfig = {
+        apiKey: "AIzaSyDvZ9BtYvmUEJfMg-u_MszLF9PoJnuCyEM",
+        authDomain: "reviews-d2933.firebaseapp.com",
+        projectId: "reviews-d2933",
+        storageBucket: "reviews-d2933.firebasestorage.app",
+        messagingSenderId: "82461731621",
+        appId: "1:82461731621:web:77b9001e1d1ac47dd708cc"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const reviewCountElement = document.getElementById('reviewCount'); // Total review count element
+        const fiveStarCountElement = document.getElementById('fiveStarCount'); // 5-star review count element
+
+        // Load the total review count
+        async function loadReviewCount() {
+            const reviewsCollection = collection(db, 'reviews');
+            const querySnapshot = await getDocs(reviewsCollection);
+
+            const reviewCount = querySnapshot.size;
+            reviewCountElement.textContent = `Reviews: ${reviewCount}`;
+        }
+
+        // Load the 5-star review count
+        async function loadFiveStarCount() {
+            const reviewsCollection = collection(db, 'reviews');
+            const fiveStarQuery = query(reviewsCollection, where("rating", "==", 5)); // Query for 5-star reviews
+
+            const querySnapshot = await getDocs(fiveStarQuery);
+            const fiveStarCount = querySnapshot.size;
+            fiveStarCountElement.textContent = `${fiveStarCount}/5`; // Update the 5-star count
+        }
+
+        // Load counts initially
+        loadReviewCount();
+        
+
+       setInterval(loadReviewCount, 5);
+  
+    });
+</script>
+ 
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
