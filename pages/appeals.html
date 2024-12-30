@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ban Appeal Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .form-group textarea {
+            resize: vertical;
+            height: 150px;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Ban Appeal Form</h1>
+    <form id="appealForm">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="appealReason">Why I Should Be un disabled: Answer (Explain why you believe the ban should be lifted.)</label>
+            <textarea id="appealReason" name="appealReason" required></textarea>
+        </div>
+  
+        <div class="form-group">
+            <button type="submit">Submit Appeal</button>
+        </div>
+        <div class="error" id="errorMessage"></div>
+    </form>
+    
+    <p><br>Please ensure you have<span data-i-color="red"> </span><strong><span data-i-color="red">thoroughly read</span></strong><span data-i-color="red"> </span>and understood<span data-i-color="red"> </span><strong><span data-i-color="red">the ban appeal rules</span></strong> before submitting your appeal. It is important to follow these guidelines closely to ensure your appeal is considered. Additionally, <strong><span data-i-color="red">refrain from sending direct messages or harassing staff </span></strong>members about the status or outcome of your appeal. <strong><span data-i-color="green">Patience and adherence</span></strong> to the rules are crucial in this process.</p>
+</div>
+
+<script>
+    document.getElementById("appealForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const appealReason = document.getElementById("appealReason").value;
+        const evidenceFile = document.getElementById("evidence").files[0];
+
+        // Check if fields are filled out
+        if (!username || !appealReason) {
+            document.getElementById("errorMessage").textContent = "Please fill out all required fields.";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("username", username);
+        formData.append("appealReason", appealReason);
+        if (evidenceFile) {
+            formData.append("evidence", evidenceFile);
+        }
+
+        // Send data to the server
+        fetch("/submit-appeal", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Your appeal has been submitted successfully.');
+        })
+        .catch(error => {
+            console.error('Error submitting appeal:', error);
+            document.getElementById("errorMessage").textContent = "There was an error submitting your appeal.";
+        });
+    });
+</script>
+
+</body>
+</html>
