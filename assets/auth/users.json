@@ -28,5 +28,15 @@
     "cardType": "Visa",
     "disabled": false,
     "profilePicture": "../assets/img/admin.jpg"
+  },
+  {
+    "id": 4,
+    "username": "test",
+    "password": "test",
+    "name": "test",
+    "email": "test@admin.org",
+    "cardType": "Visa",
+    "disabled": true,
+    "profilePicture": "../assets/img/test.jpg"
   }
 ]
