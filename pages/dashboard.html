@@ -1186,7 +1186,7 @@ if (!getCookie5('isLoggedIn')) {
       const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
-      let timeText = "yesterday";
+      let timeText = "now";
       if (days > 0) {
         timeText = `${days} days ago`;
       } else if (hours > 0) {
