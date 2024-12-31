@@ -28,6 +28,12 @@
     font-size: 18px;
     color: gold;
 }
+.star-image {
+    width: 20px; /* Set the desired width of the stars */
+    height: 20px; /* Set the desired height of the stars */
+    margin-right: 2px; /* Space between the stars */
+    vertical-align: middle; /* Align the stars vertically */
+}
 .es-review-content-text {
     font-size: 14px;
     color: #555;
@@ -289,7 +295,7 @@ button[type="submit"]:hover {
                 let stars = '';
                 for (let i = 0; i < 5; i++) {
                     if (i < rating) {
-                        stars += '★';
+                       stars += '<img src="../assets/FullStar.png" alt="Full Star" class="star-image" />';
                     } else {
                         stars += '☆';
                     }
