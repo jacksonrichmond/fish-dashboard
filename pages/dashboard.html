@@ -325,7 +325,7 @@ if (!getCookie5('isLoggedIn')) {
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">Last time on </span>was yesterday</p>
+            <p id="constructionTime" class="mb-0 text-sm"><span class="text-danger font-weight-bolder">Last time on </span>was </p>
             </div>
           </div>
         </div>
@@ -1104,83 +1104,115 @@ if (!getCookie5('isLoggedIn')) {
 
  
 
-  <script>
-        // Open IndexedDB and create the database if it doesn't exist
-        const openDatabase = () => {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open('siteData', 1);
+ <script>
+  // Open IndexedDB and create the database if it doesn't exist
+  const openDatabase = () => {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open('siteData', 1);
 
-                // Setup the database schema on upgrade
-                request.onupgradeneeded = function (e) {
-                    const db = e.target.result;
-                    if (!db.objectStoreNames.contains('settings')) {
-                        const store = db.createObjectStore('settings', { keyPath: 'id' });
-                        store.add({ id: 'under', value: false }); // Default is false (construction off)
-                    }
-                };
+      // Setup the database schema on upgrade
+      request.onupgradeneeded = function (e) {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('settings')) {
+          const store = db.createObjectStore('settings', { keyPath: 'id' });
+          store.add({ id: 'under', value: false, timestamp: null }); // Default state with no timestamp
+        }
+      };
 
-                request.onsuccess = function (e) {
-                    resolve(e.target.result);
-                };
+      request.onsuccess = function (e) {
+        resolve(e.target.result);
+      };
 
-                request.onerror = function (e) {
-                    reject('Database failed to open: ' + e.target.error);
-                };
-            });
-        };
+      request.onerror = function (e) {
+        reject('Database failed to open: ' + e.target.error);
+      };
+    });
+  };
 
-        // Function to check the construction state and update the button text
-        const updateButtonText = async () => {
-            const db = await openDatabase();
-            const transaction = db.transaction('settings', 'readonly');
-            const store = transaction.objectStore('settings');
+  // Function to check the construction state and update the button text
+  const updateButtonText = async () => {
+    const db = await openDatabase();
+    const transaction = db.transaction('settings', 'readonly');
+    const store = transaction.objectStore('settings');
 
-            const getRequest = store.get('under');
-            getRequest.onsuccess = function () {
-                const data = getRequest.result;
-                const button = document.getElementById('toggleButton');
-                if (data && data.value === true) {
-                    button.textContent = "Off"; // Construction is ON
-                } else {
-                    button.textContent = "On";  // Construction is OFF
-                }
-            };
+    const getRequest = store.get('under');
+    getRequest.onsuccess = function () {
+      const data = getRequest.result;
+      const button = document.getElementById('toggleButton');
+      if (data && data.value === true) {
+        button.textContent = "Off"; // Construction is ON
+      } else {
+        button.textContent = "On";  // Construction is OFF
+      }
 
-            getRequest.onerror = function () {
-                console.error('Failed to retrieve the "under" value.');
-            };
-        };
+      updateFooterTimestamp(data.timestamp); // Update the footer with the last timestamp
+    };
 
-        // Function to toggle the construction state
-        const toggleConstruction = async () => {
-            const db = await openDatabase();
-            const transaction = db.transaction('settings', 'readwrite');
-            const store = transaction.objectStore('settings');
+    getRequest.onerror = function () {
+      console.error('Failed to retrieve the "under" value.');
+    };
+  };
 
-            const getRequest = store.get('under');
-            getRequest.onsuccess = function () {
-                const data = getRequest.result;
-                const newState = !data.value; // Toggle the current state (true <-> false)
+  // Function to update the footer with the last construction time
+  const updateFooterTimestamp = (timestamp) => {
+    const footer = document.getElementById('constructionTime');
+    if (timestamp) {
+      const lastTime = new Date(timestamp);
+      const now = new Date();
+      const timeDiff = now - lastTime;
 
-                // Update the value in IndexedDB
-                const updateRequest = store.put({ id: 'under', value: newState });
-                updateRequest.onsuccess = function () {
-                    // Update the button text after toggling the state
-                    const button = document.getElementById('toggleButton');
-                    button.textContent = newState ? "Off" : "On"; // Update button text
-                    // Optionally, redirect to the "under construction" page if the state is true
-                   
-                };
+      // Convert the time difference into days, hours, minutes
+      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
-                updateRequest.onerror = function () {
-                    console.error('Failed to update the "under" value.');
-                };
-            };
-        };
+      let timeText = "yesterday";
+      if (days > 0) {
+        timeText = `${days} days ago`;
+      } else if (hours > 0) {
+        timeText = `${hours} hours ago`;
+      } else if (minutes > 0) {
+        timeText = `${minutes} minutes ago`;
+      }
 
-        // Call updateButtonText when the page loads to set the button text based on the current state
-        window.onload = updateButtonText;
-    </script>
+      footer.innerHTML = `<span class="text-danger font-weight-bolder">Last time on </span>was ${timeText}`;
+    } else {
+      footer.innerHTML = `<span class="text-danger font-weight-bolder">Last time on </span>was never`;
+    }
+  };
+
+  // Function to toggle the construction state
+  const toggleConstruction = async () => {
+    const db = await openDatabase();
+    const transaction = db.transaction('settings', 'readwrite');
+    const store = transaction.objectStore('settings');
+
+    const getRequest = store.get('under');
+    getRequest.onsuccess = function () {
+      const data = getRequest.result;
+      const newState = !data.value; // Toggle the current state (true <-> false)
+
+      // Update the timestamp whenever the state changes
+      const newTimestamp = newState ? new Date().toISOString() : null;
+
+      // Update the value and timestamp in IndexedDB
+      const updateRequest = store.put({ id: 'under', value: newState, timestamp: newTimestamp });
+      updateRequest.onsuccess = function () {
+        // Update the button text after toggling the state
+        const button = document.getElementById('toggleButton');
+        button.textContent = newState ? "Off" : "On"; // Update button text
+        updateFooterTimestamp(newTimestamp); // Update the footer with the new timestamp
+      };
+
+      updateRequest.onerror = function () {
+        console.error('Failed to update the "under" value.');
+      };
+    };
+  };
+
+  // Call updateButtonText when the page loads to set the button text based on the current state
+  window.onload = updateButtonText;
+</script>
 </body>
 
 </html>
