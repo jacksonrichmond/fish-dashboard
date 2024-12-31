@@ -463,8 +463,11 @@
             <div class="card-body">
               <div class="d-flex">
                 <p class="my-auto">Security keys</p>
-                <p class="text-secondary text-sm ms-auto my-auto me-3">No Security Keys</p>
-                <button class="btn btn-sm btn-outline-dark mb-0" type="button">Add</button>
+                <p id="keys-count" class="text-secondary text-sm ms-auto my-auto me-3">No Security Keys</p>
+                <button onclick="addSecurityKey()" class="btn btn-sm btn-outline-dark mb-0" type="button">Add</button>
+		      <ul id="keys-list">
+    <!-- List of security keys will appear here -->
+  </ul>
               </div>
               <hr class="horizontal dark">
               <div class="d-flex">
@@ -1183,4 +1186,53 @@ function getCookie(name) {
     return null;  // Return null if the cookie is not found
 }
 </script>
+
+	  <script>
+    // Load the security keys from localStorage when the page is loaded
+    let securityKeys = JSON.parse(localStorage.getItem("securityKeys")) || [];
+
+    // Function to update the display of security keys
+    function updateSecurityKeysDisplay() {
+      const keysListElement = document.getElementById("keys-list");
+      const keysCountElement = document.getElementById("keys-count");
+      const addButton = document.getElementById("add-key-button");
+
+      // Clear the current list display
+      keysListElement.innerHTML = '';
+
+      if (securityKeys.length === 0) {
+        keysCountElement.textContent = "No Security Keys";
+      } else {
+        keysCountElement.textContent = `${securityKeys.length} Security Keys`;
+        securityKeys.forEach((key, index) => {
+          const keyElement = document.createElement('li');
+          keyElement.textContent = `Key ${index + 1}: ${key}`;
+          keysListElement.appendChild(keyElement);
+        });
+      }
+
+      // Show add button if there are no keys, otherwise hide it
+      if (securityKeys.length === 0) {
+        addButton.style.display = "inline-block";
+      } else {
+        addButton.style.display = "none";
+      }
+    }
+
+    // Function to handle adding a new security key
+    function addSecurityKey() {
+      const newKey = prompt("Enter the new security key:");
+      if (newKey) {
+        securityKeys.push(newKey);
+        localStorage.setItem("securityKeys", JSON.stringify(securityKeys)); // Save to localStorage
+        updateSecurityKeysDisplay(); // Update the display after adding the key
+      }
+    }
+
+    // On page load, update the display
+    window.onload = function() {
+      updateSecurityKeysDisplay(); // Ensure the display is updated on page load
+    };
+  </script>
+	
 </html>
