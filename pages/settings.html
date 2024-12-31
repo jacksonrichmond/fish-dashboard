@@ -56,6 +56,15 @@
   }
 };
 </style>
+	<script>
+    // Function to generate a random number
+    function generateRandomCode() {
+      // Generate a random number between 1000000 and 9999999 (7 digits)
+      const randomCode = Math.floor(Math.random() * 9000000) + 1000000;
+      // Set the value of the input field to the generated random number
+      document.getElementById("verification-code").value = randomCode;
+    }
+  </script>
 	<style>
 		html[dji-sru-rewordify-active] span.dji-sru-rewordify-chunk{background-color:rgba(200,0,0,0)}html[dji-sru-rewordify-active] span.dji-sru-rewordify-chunk.dji-sru-rewordify-match:not([dji-sru-rewordify-ignore]),html[dji-sru-rewordify-active] span.dji-sru-rewordify-chunk.dji-sru-rewordify-match[dji-sru-rewordify-replace]{cursor:help;font-style:italic}span.dji-sru-rewordify-chunk.dji-sru-rewordify-translated{cursor:help}.dji-sru-active a.dji-sru-google-translate-logo{bottom:0;position:fixed;right:40px;z-index:9999999910}.dji-sru-outline-active a.dji-sru-google-translate-logo{bottom:0;position:fixed;right:445px;z-index:9999999910}a.dji-sru-google-translate-logo img.dji-sru-google-translate-logo-img{background:url(chrome-extension://mloajfnmjckfjbeeofcdaecbelnblden/resources/images/translatedByGoogle.png) 0 0/130px 48px no-repeat;display:inline-table;height:0;outline:none;padding-bottom:60px;padding-right:145px;width:0}div[dji-sru-rewordify-popup]{background-color:#fff;border:3px solid #4f6175;border-radius:5px;box-sizing:border-box;-webkit-box-sizing:border-box;color:#000!important;display:none;left:30px;min-height:50px;min-width:300px;opacity:0;overflow:visible;padding:0;pointer-events:none;position:fixed;top:30px;z-index:2147483647}html[dji-sru-fullscreen-popup] div[dji-sru-rewordify-popup]{bottom:10%!important;left:10%!important;right:10%!important;top:10%!important}div[dji-sru-rewordify-body]{bottom:10px;font-family:Arial,sans,sans-serif;font-size:14px;left:20px;outline:none;overflow-x:hidden;overflow-y:auto;position:absolute;right:15px;top:30px;white-space:pre-line}div[dji-sru-rewordify-body]:focus{outline:none}div[dji-sru-rewordify-popup] div.dji-sru-close-btn{background-image:url(chrome-extension://mloajfnmjckfjbeeofcdaecbelnblden/resources/images/close.svg);cursor:pointer!important;display:none;height:25px;position:absolute;right:-14px;top:-14px;width:25px;z-index:2147483647}div[dji-sru-rewordify-popup] div.dji-sru-close-btn:before{content:url(chrome-extension://mloajfnmjckfjbeeofcdaecbelnblden/resources/images/close-hover.svg);height:0;visibility:hidden;width:0}div[dji-sru-rewordify-popup] div.dji-sru-close-btn:hover{background-image:url(chrome-extension://mloajfnmjckfjbeeofcdaecbelnblden/resources/images/close-hover.svg)}@media not print{html[dji-sru-rewordify-active] div[dji-sru-rewordify-popup].dji-working{display:block;left:-10000px;top:-10000px}html[dji-sru-rewordify-active] div[dji-sru-rewordify-popup].dji-visible{display:block;opacity:1;pointer-events:auto}html[dji-sru-rewordify-active] div[dji-sru-rewordify-popup].dji-visible div.dji-sru-close-btn{display:block}}html[dji-sru-rewordify-active] .kix-selection-overlay{opacity:0!important}</style></head>
 
@@ -505,10 +514,10 @@
                 </div>
               </div>
               <div class="ps-5 pt-3 ms-3">
-                <p class="mb-0 text-sm">You haven't added your auth yet or you aren't authorized. Please add our auth Bot to your account by clicking on <a href="javascript">here</a>. When you've added the bot, send your verification code that you have received.</p>
+                <p class="mb-0 text-sm">You haven't added your auth yet or you aren't authorized. Please add our auth Bot to your account by clicking on <a href="javascript"  onclick="generateRandomCode()" >here</a>. When you've added the bot, send your verification code that you have received.</p>
                 <div class="d-sm-flex bg-gray-100 border-radius-lg p-2 my-4 is-filled">
                   <p class="text-sm font-weight-bold my-auto ps-sm-2">Verification Code</p>
-                  <input class="form-control form-control-sm ms-sm-auto mt-sm-0 mt-2 w-sm-15 w-40" type="text" value="" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Copy!" data-bs-original-title="Copy!" onfocus="focused(this)" onfocusout="defocused(this)">
+               <input id="verification-code" class="form-control form-control-sm ms-sm-auto mt-sm-0 mt-2 w-sm-15 w-40" type="text" value="1172913" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Copy!" data-bs-original-title="Copy!" onfocus="focused(this)" onfocusout="defocused(this)" data-listener-added_5155f7f0="true">
                 </div>
                 <div class="d-sm-flex bg-gray-100 border-radius-lg p-2 my-4">
                   <p class="text-sm font-weight-bold my-auto ps-sm-2">Connected account</p>
