@@ -1104,46 +1104,6 @@ if (!getCookie5('isLoggedIn')) {
 
  
 
-<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-  <div class="card">
-    <div class="card-header p-2 ps-3">
-      <div class="d-flex justify-content-between">
-        <div>
-          <p class="text-sm mb-0 text-capitalize">Under Construction</p>
-          <button id="toggleButton" onclick="toggleConstruction()" class="button">Loading...</button>
-        </div>
-        <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-          <i class="material-symbols-rounded opacity-10">leaderboard</i>
-        </div>
-      </div>
-    </div>
-    <hr class="dark horizontal my-0">
-    <div class="card-footer p-2 ps-3">
-      <p id="constructionTime" class="mb-0 text-sm"><span class="text-danger font-weight-bolder">Last time on </span>was yesterday</p>
-    </div>
-  </div>
-</div>
-
-<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-  <div class="card">
-    <div class="card-header p-2 ps-3">
-      <div class="d-flex justify-content-between">
-        <div>
-          <p class="text-sm mb-0 text-capitalize">Under Construction</p>
-          <button id="toggleButton" onclick="toggleConstruction()" class="button">Loading...</button>
-        </div>
-        <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-          <i class="material-symbols-rounded opacity-10">leaderboard</i>
-        </div>
-      </div>
-    </div>
-    <hr class="dark horizontal my-0">
-    <div class="card-footer p-2 ps-3">
-      <p id="constructionTime" class="mb-0 text-sm"><span class="text-danger font-weight-bolder">Last time on </span>was yesterday</p>
-    </div>
-  </div>
-</div>
-
 <script>
   // Open IndexedDB and create the database if it doesn't exist
   const openDatabase = () => {
@@ -1211,7 +1171,7 @@ if (!getCookie5('isLoggedIn')) {
       const remainingMinutes = minutes % 60;    // Remaining minutes after hours calculation
       const remainingHours = hours % 24;        // Remaining hours after days calculation
 
-      let timeText = "yesterday";
+      let timeText = "Just Now";
       if (days > 0) {
         timeText = `${days} days ago`;
       } else if (remainingHours > 0) {
