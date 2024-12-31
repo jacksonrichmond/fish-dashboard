@@ -1188,8 +1188,8 @@ function getCookie(name) {
 }
 </script>
 
-	  <script>
-    // Load the security keys from localStorage when the page is loaded
+	 <script>
+    // Load the security keys from localStorage
     let securityKeys = JSON.parse(localStorage.getItem("securityKeys")) || [];
 
     // Function to update the display of security keys
@@ -1208,6 +1208,16 @@ function getCookie(name) {
         securityKeys.forEach((key, index) => {
           const keyElement = document.createElement('li');
           keyElement.textContent = `Key ${index + 1}: ${key}`;
+
+          // Add the "Remove" button for each key
+          const removeButton = document.createElement('button');
+          removeButton.textContent = "Remove";
+          removeButton.classList.add("btn", "btn-sm", "btn-outline-danger", "ms-2");
+          removeButton.onclick = function() {
+            removeSecurityKey(index); // Remove the key when the button is clicked
+          };
+
+          keyElement.appendChild(removeButton);
           keysListElement.appendChild(keyElement);
         });
       }
@@ -1228,6 +1238,13 @@ function getCookie(name) {
         localStorage.setItem("securityKeys", JSON.stringify(securityKeys)); // Save to localStorage
         updateSecurityKeysDisplay(); // Update the display after adding the key
       }
+    }
+
+    // Function to remove a security key
+    function removeSecurityKey(index) {
+      securityKeys.splice(index, 1); // Remove the key at the specified index
+      localStorage.setItem("securityKeys", JSON.stringify(securityKeys)); // Update localStorage
+      updateSecurityKeysDisplay(); // Update the display after removing the key
     }
 
     // On page load, update the display
