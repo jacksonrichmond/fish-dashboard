@@ -1173,6 +1173,53 @@ if (!getCookie5('isLoggedIn')) {
     };
   };
 
+) => {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open('siteData', 1);
+
+      // Setup the database schema on upgrade
+      request.onupgradeneeded = function (e) {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('settings')) {
+          const store = db.createObjectStore('settings', { keyPath: 'id' });
+          store.add({ id: 'under', value: false, timestamp: null }); // Default state with no timestamp
+        }
+      };
+
+      request.onsuccess = function (e) {
+        resolve(e.target.result);
+      };
+
+      request.onerror = function (e) {
+        reject('Database failed to open: ' + e.target.error);
+      };
+    });
+  };
+
+  // Function to check the construction state and update the button text
+  const updateButtonText = async () => {
+    const db = await openDatabase();
+    const transaction = db.transaction('settings', 'readonly');
+    const store = transaction.objectStore('settings');
+
+    const getRequest = store.get('under');
+    getRequest.onsuccess = function () {
+      const data = getRequest.result;
+      const button = document.getElementById('toggleButton');
+      if (data && data.value === true) {
+        button.textContent = "Off"; // Construction is ON
+      } else {
+        button.textContent = "On";  // Construction is OFF
+      }
+
+      updateFooterTimestamp(data.timestamp); // Update the footer with the last timestamp
+    };
+
+    getRequest.onerror = function () {
+      console.error('Failed to retrieve the "under" value.');
+    };
+  };
+
   // Function to update the footer with the last construction time
   const updateFooterTimestamp = (timestamp) => {
     const footer = document.getElementById('constructionTime');
@@ -1181,18 +1228,25 @@ if (!getCookie5('isLoggedIn')) {
       const now = new Date();
       const timeDiff = now - lastTime;
 
-      // Convert the time difference into days, hours, minutes
-      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+      // Convert the time difference into days, hours, minutes, and seconds
+      const seconds = Math.floor(timeDiff / 1000); // Time difference in seconds
+      const minutes = Math.floor(seconds / 60);  // Convert seconds to minutes
+      const hours = Math.floor(minutes / 60);    // Convert minutes to hours
+      const days = Math.floor(hours / 24);       // Convert hours to days
 
-      let timeText = "now";
+      const remainingSeconds = seconds % 60;    // Remaining seconds after minutes calculation
+      const remainingMinutes = minutes % 60;    // Remaining minutes after hours calculation
+      const remainingHours = hours % 24;        // Remaining hours after days calculation
+
+      let timeText = "Now";
       if (days > 0) {
         timeText = `${days} days ago`;
-      } else if (hours > 0) {
-        timeText = `${hours} hours ago`;
-      } else if (minutes > 0) {
-        timeText = `${minutes} minutes ago`;
+      } else if (remainingHours > 0) {
+        timeText = `${remainingHours} hours ago`;
+      } else if (remainingMinutes > 0) {
+        timeText = `${remainingMinutes} minutes ago`;
+      } else if (remainingSeconds > 0) {
+        timeText = `${remainingSeconds} seconds ago`;
       }
 
       footer.innerHTML = `<span class="text-danger font-weight-bolder">Last time on </span>was ${timeText}`;
@@ -1200,7 +1254,6 @@ if (!getCookie5('isLoggedIn')) {
       footer.innerHTML = `<span class="text-danger font-weight-bolder">Last time on </span>was never`;
     }
   };
-
   // Function to toggle the construction state and update the timestamp (only when turning "on")
   const toggleConstruction = async () => {
     const db = await openDatabase();
