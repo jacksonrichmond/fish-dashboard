@@ -1104,7 +1104,7 @@ if (!getCookie5('isLoggedIn')) {
 
  
 
- <script>
+<script>
   // Open IndexedDB and create the database if it doesn't exist
   const openDatabase = () => {
     return new Promise((resolve, reject) => {
@@ -1181,7 +1181,7 @@ if (!getCookie5('isLoggedIn')) {
     }
   };
 
-  // Function to toggle the construction state
+  // Function to toggle the construction state and update the timestamp
   const toggleConstruction = async () => {
     const db = await openDatabase();
     const transaction = db.transaction('settings', 'readwrite');
@@ -1192,7 +1192,7 @@ if (!getCookie5('isLoggedIn')) {
       const data = getRequest.result;
       const newState = !data.value; // Toggle the current state (true <-> false)
 
-      // Update the timestamp whenever the state changes
+      // Set the current timestamp for the change
       const newTimestamp = newState ? new Date().toISOString() : null;
 
       // Update the value and timestamp in IndexedDB
