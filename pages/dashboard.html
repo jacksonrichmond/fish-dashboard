@@ -1104,6 +1104,26 @@ if (!getCookie5('isLoggedIn')) {
 
  
 
+<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+  <div class="card">
+    <div class="card-header p-2 ps-3">
+      <div class="d-flex justify-content-between">
+        <div>
+          <p class="text-sm mb-0 text-capitalize">Under Construction</p>
+          <button id="toggleButton" onclick="toggleConstruction()" class="button">Loading...</button>
+        </div>
+        <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+          <i class="material-symbols-rounded opacity-10">leaderboard</i>
+        </div>
+      </div>
+    </div>
+    <hr class="dark horizontal my-0">
+    <div class="card-footer p-2 ps-3">
+      <p id="constructionTime" class="mb-0 text-sm"><span class="text-danger font-weight-bolder">Last time on </span>was yesterday</p>
+    </div>
+  </div>
+</div>
+
 <script>
   // Open IndexedDB and create the database if it doesn't exist
   const openDatabase = () => {
@@ -1181,7 +1201,7 @@ if (!getCookie5('isLoggedIn')) {
     }
   };
 
-  // Function to toggle the construction state and update the timestamp
+  // Function to toggle the construction state and update the timestamp (only when turning "on")
   const toggleConstruction = async () => {
     const db = await openDatabase();
     const transaction = db.transaction('settings', 'readwrite');
@@ -1192,8 +1212,8 @@ if (!getCookie5('isLoggedIn')) {
       const data = getRequest.result;
       const newState = !data.value; // Toggle the current state (true <-> false)
 
-      // Set the current timestamp for the change
-      const newTimestamp = newState ? new Date().toISOString() : null;
+      // Only update the timestamp when turning "on" (setting construction to true)
+      const newTimestamp = newState ? new Date().toISOString() : data.timestamp; // Preserve timestamp if turning off
 
       // Update the value and timestamp in IndexedDB
       const updateRequest = store.put({ id: 'under', value: newState, timestamp: newTimestamp });
@@ -1201,7 +1221,7 @@ if (!getCookie5('isLoggedIn')) {
         // Update the button text after toggling the state
         const button = document.getElementById('toggleButton');
         button.textContent = newState ? "Off" : "On"; // Update button text
-        updateFooterTimestamp(newTimestamp); // Update the footer with the new timestamp
+        updateFooterTimestamp(newTimestamp); // Update the footer with the new or preserved timestamp
       };
 
       updateRequest.onerror = function () {
@@ -1213,6 +1233,7 @@ if (!getCookie5('isLoggedIn')) {
   // Call updateButtonText when the page loads to set the button text based on the current state
   window.onload = updateButtonText;
 </script>
+
 </body>
 
 </html>
