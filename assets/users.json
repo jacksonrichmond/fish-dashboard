@@ -3,6 +3,7 @@
       
         "userid": "5813880210",
         "cars": [{"example": true,
+            "camaro": true,
         "otherVehicle": false}]
     },
     {
