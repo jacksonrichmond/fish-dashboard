@@ -1,30 +1,8 @@
-[
-    {
+{
       
         "userid": "5813880210",
-       "cars": [
-            {"1": true, "Camaro": true},
-            {"2": true, "Mustang": true},
-            {"3": true, "Corvette": true},
-            {"4": true, "Charger": true},
-            {"5": true, "Tesla": true},
-            {"6": true, "BMW M3": true},
-            {"7": true, "Audi A4": true},
-            {"8": true, "Mercedes-Benz C-Class": true},
-            {"9": true, "Honda Civic": true},
-            {"31": true, "Toyota Corolla": true},
-            {"134": true, "Ford Focus": true},
-            {"44": true, "Chevrolet Malibu": true},
-            {"exa44mple": true, "Nissan Altima": true},
-            {"455": true, "Hyundai Sonata": true},
-            {"gsgh": true, "Kia Optima": true},
-            {"gsgrrs": true, "Jeep Wrangler": true},
-            {"hggsg": true, "Range Rover": true},
-            {"ghet": true, "Porsche 911": true},
-            {"hrtyhd": true, "Lexus RX": true},
-            {"995": true, "Ram 1500": true},
-            {"rs": true, "Subaru Outback": true}
-        ]
+        "cars": [{"example": true,
+        "otherVehicle": false}]
     },
     {
         "userid": "618878886",
