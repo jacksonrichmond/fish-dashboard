@@ -1,12 +1,13 @@
 [
     {
+      
         "username": "RoDonaldsholdings",
-        "example": true,
-        "otherVehicle": false
+        "cars": [{"example": true,
+        "otherVehicle": false}]
     },
     {
         "username": "Player2",
-        "example": false,
-        "otherVehicle": true
+        "cars": [{"example": false,
+        "otherVehicle": true}]
     }
 ]
