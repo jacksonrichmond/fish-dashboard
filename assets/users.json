@@ -4,6 +4,7 @@
         "cars": [
             {
                 "example": true,
+                 "camaro": true,
                 "otherVehicle": false
             }
         ]
