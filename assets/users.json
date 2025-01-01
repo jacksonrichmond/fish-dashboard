@@ -1,42 +1,12 @@
 [
-  {
-    "id": 0,
-    "username": "BigZa",
-    "password": "Boss",
-    "name": "Jackson",
-    "email": "jrichmond@hsstu.lpsb.org",
-    "cardType": "Visa",
-    "disabled": false,
-    "profilePicture": "../assets/img/bigza.jpg"
-  },
-  {
-    "id": 2,
-    "username": "Juan",
-    "password": "Juan",
-    "name": "Juan",
-    "email": "juan@hsstu.lpsb.org",
-    "cardType": "Visa",
-    "disabled": false,
-    "profilePicture": "../assets/img/bruce-mars.jpg"
-  },
- {
-    "id": 3,
-    "username": "admin",
-    "password": "example",
-    "name": "admin",
-    "email": "admin@admin.org",
-    "cardType": "Visa",
-    "disabled": false,
-    "profilePicture": "../assets/img/admin.jpg"
-  },
-  {
-    "id": 4,
-    "username": "test",
-    "password": "test",
-    "name": "test",
-    "email": "test@admin.org",
-    "cardType": "Visa",
-    "disabled": true,
-    "profilePicture": "../assets/img/test.jpg"
-  }
+    {
+        "username": "RoDonaldsholdings",
+        "example": true,
+        "otherVehicle": false
+    },
+    {
+        "username": "Player2",
+        "example": false,
+        "otherVehicle": true
+    }
 ]
