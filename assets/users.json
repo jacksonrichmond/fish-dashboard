@@ -2,9 +2,8 @@
     {
       
         "userid": "5813880210",
-        {"cars": [{"example": true,
-            "otherVehicle": false, 
-            "camaro": true}]}
+        "cars": [{"example": true,
+        "Camaro": true}]
     },
     {
         "userid": "618878886",
