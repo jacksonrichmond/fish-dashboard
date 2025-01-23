@@ -1,22 +1,50 @@
+
 <?php
-// Define your whitelisted Place IDs
-$whitelistedPlaceIds = array(106361627270674, 987654321, 555555555); // Replace these with your actual place IDs
+$whitelist = ['106361627270674'];
+$gameId = $_GET['game_id'] ?? '';
 
-// Get the place_id from the query parameter
-if (isset($_GET['place_id'])) {
-    $placeId = (int)$_GET['place_id']; // Cast to an integer to sanitize input
+$webhookUrl = '';
 
-    // Check if the place ID is in the whitelist
-    if (in_array($placeId, $whitelistedPlaceIds)) {
-        // If the place ID is allowed, return "allowed"
-        echo "allowed";
-    } else {
-        // If the place ID is not in the whitelist, return "not_allowed"
-        echo "not_allowed";
+function sendDiscordEmbed($title, $description, $color, $url) {
+    global $webhookUrl;
+    $embed = [
+        'title' => $title,
+        'description' => $description,
+        'url' => $url,
+        'color' => $color,
+        'timestamp' => date('c'),
+        'footer' => ['text' => 'Made by crumies']
+    ];
+    $data = json_encode(['embeds' => [$embed]]);
+    $options = [
+        'http' => [
+            'header' => "Content-type: application/json\r\n",
+            'method' => 'POST',
+            'content' => $data
+        ]
+    ];
+    $context = stream_context_create($options);
+    @$result = file_get_contents($webhookUrl, false, $context);
+    if ($result === false) {
+        $error = error_get_last();
+        trigger_error("Failed to send webhook: " . $error['message']);
     }
-} else {
-    // If the place_id parameter is not set, return an error
-    http_response_code(400); // Set HTTP status code to 400 Bad Request
-    echo "Error: place_id parameter missing";
 }
-?>
+
+if (!empty($gameId) && in_array($gameId, $whitelist)) {
+    sendDiscordEmbed(
+        'Game Whitelisted',
+        'Game ID: ' . $gameId,
+        hexdec('32CD32'),
+        'https://www.roblox.com/games/' . $gameId
+    );
+    echo "game whitelisted";
+} else {
+    sendDiscordEmbed(
+        'Game NOT Whitelisted',
+        'Game ID: ' . ($gameId ?: 'Not Provided'),
+        hexdec('FF0000'),
+        ($gameId ? 'https://www.roblox.com/games/' . $gameId : null)
+    );
+    echo "game not whitelisted";
+}
