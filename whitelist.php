@@ -1,6 +1,6 @@
 <?php
 // Define your whitelisted Place IDs
-$whitelistedPlaceIds = array(123456789, 987654321, 555555555); // Replace these with your actual place IDs
+$whitelistedPlaceIds = array(106361627270674, 987654321, 555555555); // Replace these with your actual place IDs
 
 // Get the place_id from the query parameter
 if (isset($_GET['place_id'])) {
