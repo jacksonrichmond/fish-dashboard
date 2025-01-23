@@ -1,6 +1,6 @@
 
 <?php
-$whitelist = ['7051540651'];
+$whitelist = ['106361627270674'];
 $gameId = $_GET['game_id'] ?? '';
 
 $webhookUrl = '';
