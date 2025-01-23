@@ -3,7 +3,7 @@
 $whitelist = ['106361627270674'];
 $gameId = $_GET['game_id'] ?? '';
 
-$webhookUrl = '';
+$webhookUrl = 'https://discord.com/api/webhooks/1323499591601225819/WHUjHeWXr4z8Ke6C8rgL568uhDsOP2yInUQK1Jfot17sgYQssYPEqQO00ZznqnTswOW-';
 
 function sendDiscordEmbed($title, $description, $color, $url) {
     global $webhookUrl;
