@@ -3,32 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Video from URL</title>
-    <script>
-        function embedVideo() {
-            const url = document.getElementById('videoURL').value; // Get the URL from the input field
-
-            // Here we check if it's a URL that links to an MP4 file (you can expand this check to cover other video sources)
-            if (url.includes('.mp4')) {
-                const videoEmbed = `<video width="640" height="360" controls>
-                                        <source src="${url}" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                     </video>`;
-                document.getElementById('videoContainer').innerHTML = videoEmbed;
-            } else {
-                document.getElementById('videoContainer').innerHTML = 'Please provide a valid MP4 video URL.';
-            }
-        }
-    </script>
+    <title>MP4 Video Player</title>
 </head>
 <body>
 
-    <h1>Embed Video from URL</h1>
+    <h1>MP4 Video Players</h1>
 
-    <input type="text" id="videoURL" placeholder="Enter video URL" />
-    <button onclick="embedVideo()">Embed Video</button>
+    <!-- First Video Player -->
+    <video width="640" height="360" controls>
+        <source src="../assets/assets/2025-01-23 12-48-10.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
-    <div id="videoContainer"></div> <!-- Video will be embedded here -->
+    <!-- Second Video Player -->
+    <video width="640" height="360" controls>
+        <source src="../assets/nil" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
 </body>
 </html>
