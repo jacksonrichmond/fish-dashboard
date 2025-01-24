@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MP4 Video Player</title>
+    <script>
+        function updateVideoSource() {
+            var url = document.getElementById('videoURL').value; // Get URL from input field
+            var videoPlayer = document.getElementById('videoPlayer'); // Get video element
+            videoPlayer.src = url; // Set video source to URL
+        }
+    </script>
 </head>
 <body>
 
     <h1>MP4 Video Player</h1>
 
-    <video width="640" height="360" controls>
-        <source src="../assets/2025-01-23 12-48-10.mp4" type="video/mp4">
+    <input type="text" id="videoURL" placeholder="Enter video URL" />
+    <button onclick="updateVideoSource()">Load Video</button>
+
+    <video id="videoPlayer" width="640" height="360" controls>
+        <source src="" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
