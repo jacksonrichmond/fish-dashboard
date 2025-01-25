@@ -1,7 +1,10 @@
 {
-  "whitelisted_game_ids": [
-    "106361627270674",
-    "123456789012345",
-    "987654321098765"
-  ]
+  "lunaHotel": {
+    "whitelisted": true,
+    "universeId": 1234567890
+  },
+  "otherProductName": {
+    "whitelisted": false,
+    "universeId": 9876543210
+  }
 }
