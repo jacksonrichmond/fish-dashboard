@@ -1,6 +1,6 @@
 {
   "lunaHotel": {
-    "whitelisted": true,
+    "whitelisted": false,
     "universeId": 106361627270674
   },
   "otherProductName": {
