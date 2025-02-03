@@ -3,8 +3,9 @@
     "whitelisted": true,
     "universeId": 106361627270674
   },
-  "otherProductName": {
-    "whitelisted": false,
-    "universeId": 9876543210
+  
+  "lunaPOS CafePOS": {
+    "whitelisted": true,
+    "universeId": 106361627270674
   }
 }
